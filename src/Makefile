@@ -1,6 +1,6 @@
 #  Makefile for Transformation Rule-based Part of Speech Tagger
 
-PNAME=csttaggerXML
+PNAME=taggerXML
 VERSION=3
 MINOR_NUMBER=2
 
