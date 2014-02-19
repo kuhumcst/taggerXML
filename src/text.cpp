@@ -203,7 +203,7 @@ const char * text::convert(const char * s)
 #endif
 
 
-text::text(bool nice)
+text::text(/*bool nice*/)
            :alltext(NULL)
            ,total(0)
            ,fields(0)
@@ -214,9 +214,9 @@ text::text(bool nice)
     }
 
 #if STREAM
-text::text(istream & fpi,bool nice,bool FINAL_ONLY_FLAG)
+text::text(istream & fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
 #else
-text::text(FILE * fpi,bool nice,bool FINAL_ONLY_FLAG)
+text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
 #endif
            :alltext(NULL)
            ,total(0)
@@ -431,7 +431,7 @@ text::text(FILE * fpi,bool nice,bool FINAL_ONLY_FLAG)
     void token::setWord(char * start,char * end,text * Text)
         {
         setWordpos(start,end);
-        int sav = 0;
+        char sav = 0;
         if(*end)
             {
             sav = *end;

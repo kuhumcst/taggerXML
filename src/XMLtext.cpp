@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 static void printXML(
 #if STREAM
-                     ostream * fpo
+                     ostream & fpo
 #else
                      FILE * fpo
 #endif
@@ -649,8 +649,8 @@ void CallBackEmptyTag(void * arg)
 #if STREAM
 XMLtext::XMLtext(istream & fpi
            ,const char * Iformat
-           ,bool nice
-           ,unsigned long int size
+           //,bool nice
+           //,unsigned long int size
            ,bool XML
            ,const char * ancestor // if not null, restrict POS-tagging to elements that are offspring of ancestor
            ,const char * segment // Optional segment delimiter. E.g. br: <br /> or s: <s> ... </s>
@@ -662,8 +662,8 @@ XMLtext::XMLtext(istream & fpi
 #else
 XMLtext::XMLtext(FILE * fpi
            ,const char * Iformat
-           ,bool nice
-           ,unsigned long int size
+//           ,bool nice
+           //,unsigned long int size
            ,bool XML
            ,const char * ancestor // restrict POS-tagging to segments that fit in ancestor elements
            ,const char * segment // Optional segment delimiter. E.g. br: <br /> or s: <s> ... </s>
@@ -673,7 +673,7 @@ XMLtext::XMLtext(FILE * fpi
            ,const char * POSAttribute // Store POS in POSAttribute
            )
 #endif
-           :text(nice)
+           :text(/*nice*/)
            ,ancestor(ancestor)
            ,segment(segment)
            ,element(element)
@@ -770,9 +770,9 @@ XMLtext::XMLtext(FILE * fpi
         char * (wordReader::*fnc)(int kar);
         int loop;
         fnc = &wordReader::count;
+        wordfield = 0;
         if(Iformat)
             {
-            wordfield = 0;
             format = translateFormat(Iformat,wordfield);
             if(!wordfield)
                 {

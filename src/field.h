@@ -54,7 +54,7 @@ class field
             else
                 next = fld;
             }
-        virtual void add(char kar){}
+        virtual void add(char /*kar*/){}
         virtual 
 #ifndef CONSTSTRCHR
             const 

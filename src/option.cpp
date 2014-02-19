@@ -44,7 +44,7 @@ optionStruct::optionStruct():
         ,Lexicalrulefile(0)
         ,Contextualrulefile(0)
         ,wdlistname(0)
-        ,intermed(0)
+        //,intermed(0)
         ,START_ONLY_FLAG(false)
         ,FINAL_ONLY_FLAG(false)
         ,xtra(0)
@@ -73,7 +73,7 @@ optionStruct::optionStruct():
         delete [] Lexicalrulefile;
         delete [] Contextualrulefile;
         delete [] wdlistname;
-        delete [] intermed;
+        //delete [] intermed;
         delete [] xtra;
         delete [] Noun; // -n 
         delete [] Proper;// -p
@@ -122,7 +122,8 @@ optionStruct::optionStruct():
                 printf("    -p<class> Proper (default NNP)\n");
                 printf("    -v Verbose (default off)\n");
                 printf("============================\n");
-                printf("    -X  XML input. Leave XML elements unchanged.\n");
+                printf("    -X- Not XML input. XML tags will be treated as text and POS-tagged. (default)\n");
+                printf("    -X+ XML input. Leave XML elements unchanged. POS as suffix behind word, separated by slash.\n");
                 printf("    The next options do not allow space between option letters and argument!\n");
                 printf("    -Xa<ancestor>  Only analyse elements with specified ancestor. e.g -Xap\n");
                 printf("    -Xs<delimiter> Segment (sentence) delimiter. Can be empty tag. e.g -Xsbr or -Xss\n");
@@ -130,7 +131,6 @@ optionStruct::optionStruct():
                 printf("    -Xw<word>  Words are to be found in attribute. e.g -Xwword\n");
                 printf("    -Xt<pretag>  Words' pre-tagging to be found in attribute. e.g -Xtprepos\n");
                 printf("    -Xp<POS>  Destination of POS is the specified attribute. e.g -Xppos\n");
-                //printf("    -Xc<lemmaclass>  Destination of lemma class is the specified attribute. e.g -Xllemmaclass\n");
                 return Leave;
             case 'f':
                 ConvertToLowerCaseIfFirstWord = true;//boolean(locoptarg);
@@ -178,10 +178,12 @@ optionStruct::optionStruct():
                 //WORDLIST
                 wdlistname = dupl(locoptarg);
                 break;
+                /*
             case 'm':
                 //INTERMEDFILE
                 intermed = dupl(locoptarg);
                 break;
+                */
             case 'S':
                 //start state tagger only
                 START_ONLY_FLAG = true;

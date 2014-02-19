@@ -37,16 +37,16 @@ class tagger
                 const char * Bigrams,
                 const char * Lexicalrulefile,
                 const char * Contextualrulefile,
-                char *intermed,
+                //char *intermed,
                 char * wdlistname,
                 bool START_ONLY_FLAG,
                 bool FINAL_ONLY_FLAG
                 );
         ~tagger();
 #if STREAM
-        bool analyse(istream & CORPUS,ostream * fintermed,ostream & fpout,optionStruct * Options);
+        bool analyse(istream & CORPUS,/*ostream * fintermed,*/ostream & fpout,optionStruct * Options);
 #else
-        bool analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * Options);
+        bool analyse(FILE * CORPUS,/*FILE * fintermed,*/FILE * fpout,optionStruct * Options);
 #endif
     };
 

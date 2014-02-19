@@ -19,7 +19,7 @@ struct optionStruct
     char * Lexicalrulefile;
     char * Contextualrulefile;
     char * wdlistname;
-    char * intermed;
+    //char * intermed;
     bool START_ONLY_FLAG;
     bool FINAL_ONLY_FLAG;
     char * xtra; // default: xoptions file (deprecated)

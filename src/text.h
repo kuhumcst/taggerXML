@@ -256,11 +256,11 @@ class text: public corpus
             total += inc;
             }
         //static bool setFormat(const char * format,const char * bformat,const char * Bformat,bool InputHasTags);
-        text(bool nice);
+        text(/*bool nice*/);
 #if STREAM
-        text(istream & fpi,bool nice,bool FINAL_ONLY_FLAG);
+        text(istream & fpi,/*bool nice,*/bool FINAL_ONLY_FLAG);
 #else
-        text(FILE * fpi,bool nice,bool FINAL_ONLY_FLAG);
+        text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG);
 #endif
         virtual ~text();
         strng * insert(const char * w);

@@ -75,8 +75,8 @@ class XMLtext : public text
             FILE * fpi
 #endif
            ,const char * Iformat
-           ,bool nice
-           ,unsigned long int size
+//           ,bool nice
+//           ,unsigned long int size
            ,bool XML
            ,const char * ancestor // if not null, restrict POS-tagging to elements that are offspring of ancestor
            ,const char * segment // Optional segment delimiter. E.g. br: <br /> or s: <s> ... </s>

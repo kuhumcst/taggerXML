@@ -15,13 +15,7 @@ using namespace std;
 
 struct optionStruct;
 
-int final_state_tagger(
-#if STREAM
-                         ostream & fpout
-#else
-                         FILE * fpout
-#endif
-                       , const char * Contextualrulefile
+int final_state_tagger(  const char * Contextualrulefile
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
                        , Registry SEENTAGGING

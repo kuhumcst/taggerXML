@@ -153,7 +153,7 @@ int main(int argc, char **argv)
                         ,Option.Bigrams
                         ,Option.Lexicalrulefile
                         ,Option.Contextualrulefile
-                        ,Option.intermed           // i
+//                        ,Option.intermed           // m
                         ,Option.wdlistname         // w
                         //,splitnum           // s
                         ,Option.START_ONLY_FLAG    // S
@@ -162,13 +162,12 @@ int main(int argc, char **argv)
       )
         return 1;
 
-
+/*
 #if STREAM
     ofstream * fintermed = NULL;
 #else
     FILE * fintermed = NULL;
 #endif
-
     if(Option.intermed)
         {
 #if STREAM
@@ -183,11 +182,12 @@ int main(int argc, char **argv)
             exit(1);
             }
         }
+*/
 
 #if STREAM
     ifstream corpus(Option.Corpus);
     corpus.unsetf(ios::skipws); // do not skip white space
-    theTagger.analyse(corpus,fintermed,cout,&Option);
+    theTagger.analyse(corpus,/*fintermed,*/cout,&Option);
 #else
     FILE * out = stdout;//fopen("output.txt","wb");
     FILE * corpus = fopen(Option.Corpus,"r");
@@ -196,22 +196,24 @@ int main(int argc, char **argv)
         fprintf(stderr,"Cannot open file %s for reading\n",Option.Corpus);
         return 1;
         }
-    theTagger.analyse(corpus,fintermed,out,&Option);
+    theTagger.analyse(corpus,/*fintermed,*/out,&Option);
 #endif
     
 #if STREAM
+    /*
     if(fintermed)
         {
         delete fintermed;
-        }
+        }*/
 #else
     if(out != stdout)
         fclose(out);
     fclose(corpus);
+    /*
     if(fintermed)
         {
         fclose(fintermed);
-        }
+        }*/
 #endif
 
 #if TIMING

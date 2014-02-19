@@ -7,8 +7,8 @@ class substring
         char * start;
         char * end;
     public:
-        static int savechar;
         static char * savepos;
+        static char savechar;
         static void reset()
             {
             if(savepos)

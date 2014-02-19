@@ -63,13 +63,7 @@ char * shift(char * line)
     return NULL;
     }
 
-int final_state_tagger(
-#if STREAM
-                        ostream & fpout
-#else
-                        FILE * fpout
-#endif
-                       ,const char * Contextualrulefile
+int final_state_tagger( const char * Contextualrulefile
 
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING

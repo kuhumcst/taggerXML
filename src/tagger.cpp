@@ -50,7 +50,7 @@ static const char * Bigrams;
 static const char * Lexicalrulefile;
 static const char * Contextualrulefile;
 //static int splitnum;
-static char * intermed;
+//static char * intermed;
 static bool START_ONLY_FLAG;
 static bool FINAL_ONLY_FLAG;
 static char * wdlistname; 
@@ -100,7 +100,9 @@ bool createRegistries
         const char * Lexicalrulefile,
         const char * Bigrams,
         const char * Wordlist,
+#if !RESTRICT_MOVE
         int START_ONLY_FLAG,
+#endif
         Darray * RULE_ARRAY
         )
     {
@@ -483,7 +485,7 @@ tagger::tagger()
     linenums = 0;
     tagnums = 0;
     wdlistname = NULL; 
-    intermed = NULL;
+//    intermed = NULL;
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
     SEENTAGGING = NULL;
@@ -503,7 +505,7 @@ bool tagger::init(
                 const char * _Bigrams,
                 const char * _Lexicalrulefile,
                 const char * _Contextualrulefile,
-                char *_intermed,
+                //char *_intermed,
                 char * _wdlistname,
                 //int _splitnum,
                 bool _START_ONLY_FLAG,
@@ -515,7 +517,7 @@ bool tagger::init(
     Lexicalrulefile = _Lexicalrulefile;
     Contextualrulefile = _Contextualrulefile;
     //splitnum = _splitnum;
-    intermed = _intermed;
+//    intermed = _intermed;
     START_ONLY_FLAG = _START_ONLY_FLAG;
     FINAL_ONLY_FLAG = _FINAL_ONLY_FLAG;
     wdlistname = _wdlistname;
@@ -527,11 +529,13 @@ bool tagger::init(
     if (  (  START_ONLY_FLAG 
           && FINAL_ONLY_FLAG
           ) 
+/*
        || (  (  START_ONLY_FLAG 
              || FINAL_ONLY_FLAG
              ) 
           && intermed
           ) 
+*/
        || (  FINAL_ONLY_FLAG 
           && wdlistname
           ) 
@@ -562,16 +566,18 @@ bool tagger::init(
         Lexicalrulefile,
         Bigrams,
         wdlistname,
+#if !RESTRICT_MOVE
         START_ONLY_FLAG,
+#endif
         &RULE_ARRAY
         );
     }
 
 
 #if STREAM
-bool tagger::analyse(istream & CORPUS,ostream * fintermed,ostream & fpout,optionStruct * Options)
+bool tagger::analyse(istream & CORPUS,/*ostream * fintermed,*/ostream & fpout,optionStruct * Options)
 #else
-bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * Options)
+bool tagger::analyse(FILE * CORPUS,/*FILE * fintermed,*/FILE * fpout,optionStruct * Options)
 #endif
     {
     //FILE *fp;
@@ -581,8 +587,8 @@ bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * 
         Text = new XMLtext
            (CORPUS
            ,"$w\\s"//char * Iformat
-           ,true//bool nice
-           ,0//unsigned long int size
+           //,true//bool nice
+           //,0//unsigned long int size
            ,true//bool XML
            ,Options->ancestor//"p"//const char * ancestor // restrict POS-tagging to segments that fit in ancestor elements
            ,Options->segment
@@ -594,11 +600,11 @@ bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * 
         }
     else
         {
-        Text = new text(CORPUS,true,FINAL_ONLY_FLAG);
+        Text = new text(CORPUS,/*true,*/FINAL_ONLY_FLAG);
         }
 
 
-     if (1/*! wdlistname*/) 
+//     if (! wdlistname) 
          {
          if(!FINAL_ONLY_FLAG) 
              {
@@ -615,7 +621,7 @@ bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * 
              }
          if(!START_ONLY_FLAG)
              {
-             final_state_tagger(fpout,Contextualrulefile
+             final_state_tagger(Contextualrulefile
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
                  , SEENTAGGING
@@ -631,9 +637,9 @@ bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * 
                  );
              }
          }
-    else /* + wordlist */   
-        {
 /*
+    else / * + wordlist * /   
+        {
         if (! intermed)  // -intermed 
             {
             if (START_ONLY_FLAG)
@@ -650,8 +656,8 @@ bool tagger::analyse(FILE * CORPUS,FILE * fintermed,FILE * fpout,optionStruct * 
             wdlistname,
             intermed,
             END_PROG, Contextualrulefile, Lexicon,allocatedcorpussize,linenums,tagnums);
-*/
         }
+*/
     /*
     start-state-tagger.exe LEXICON.BROWN ..\temp\sents.txt Bigrams LEXICALRULEFILE.BROWN | final-state-tagger.exe CONTEXTUALRULEFILE.BROWN LEXICON.BROWN 3388 52032 61947
     */
