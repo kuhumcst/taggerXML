@@ -18,6 +18,7 @@ This file contains linguistic resources for tagging English text as well.
     2. Change directory to the 'taggerXML/src' directory.
     3. Run 'make' or 'make taggerXML'. To get rid of object files, run 
     4. 'make clean'.
+
 You can use https://github.com/kuhumcst/taggerXML/blob/master/doc/maketaggerXML.bash to do all of this automatically.
 
 **Running**
