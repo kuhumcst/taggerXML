@@ -6,7 +6,7 @@
 #include <assert.h>
 #include "hashmap.h"
 
-static hash<strng> * Hash = 0;
+static hashmap::hash<strng> * Hash = 0;
 
 
 const char * token::getWord()
@@ -154,7 +154,7 @@ strng * text::insert(const char * w)
     w = convert(w); // XML-entities -> characters
     if(!Hash)
         {
-        Hash = new hash<strng>(&strng::key,1000);
+        Hash = new hashmap::hash<strng>(&strng::key,1000);
         }
     void * v = NULL;
     strng * wrd = Hash->find(w,v);

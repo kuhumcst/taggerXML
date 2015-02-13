@@ -56,8 +56,8 @@ int start_state_tagger
         )
     {
     int corpus_array_index = 0;
-    hash<strng> * ntot_hash; // for words (types) that are not in the lexicon.
-    hash<strng> * tag_hash;
+    hashmap::hash<strng> * ntot_hash; // for words (types) that are not in the lexicon.
+    hashmap::hash<strng> * tag_hash;
     strng ** tag_array;
     char *tempstr,*tempstr2;
     char **therule,**therule2;
@@ -132,7 +132,7 @@ int start_state_tagger
     /* Read in Corpus to be tagged.  Actually, just record word list, */
     /* since each word will get the same tag, regardless of context. */
     //ntot_hash = Registry_create(Registry_strcmp,Registry_strhash);
-    ntot_hash = new hash<strng>(&strng::key,1000);
+    ntot_hash = new hashmap::hash<strng>(&strng::key,1000);
 
     Corpus->rewind();
     
@@ -655,7 +655,7 @@ int start_state_tagger
     
     /* now go from array to hash table */
     
-    tag_hash = new hash<strng>(&strng::key,1000);
+    tag_hash = new hashmap::hash<strng>(&strng::key,1000);
     for (count= 0;count < length;++count) 
         {
         const char * name = tag_array[count]->key();
