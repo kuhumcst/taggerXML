@@ -25,6 +25,13 @@ You can use https://github.com/kuhumcst/taggerXML/blob/master/doc/maketaggerXML.
 
 For running the taggerXML, see Eric Brill's original documentation and https://github.com/kuhumcst/taggerXML/blob/master/doc/improvements.md
 
+**Online availability**
+
+taggerXML is demonstrated at CST's website
+(http://ada.sc.ku.dk/tools/index.php?lang=en)
+and an integrated webservice in the CLARIN-DK infrastructure
+(https://clarin.dk/).
+
 **Contact info**
 
 For questions and remarks about the program, please feel free to contact us.
