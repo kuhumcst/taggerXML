@@ -294,7 +294,7 @@ optionStruct::optionStruct():
                             {
                             for(p = locoptarg2 + strlen(locoptarg2) - 1;p >= locoptarg2;--p)
                                 {
-                                if(!isspace(*p))
+                                if(!isspace((unsigned char)*p))
                                     break;
                                 *p = '\0';
                                 }
@@ -315,7 +315,7 @@ optionStruct::optionStruct():
                                             {
                                             if(*q == ';')
                                                 break;
-                                            if(!isspace(*q))
+                                            if(!isspace((unsigned char)*q))
                                                 {
                                                 string = false;
                                                 }
@@ -400,7 +400,7 @@ optionStruct::optionStruct():
                             {
                             for(p = locoptarg2 + strlen(locoptarg2) - 1;p >= locoptarg2;--p)
                                 {
-                                if(!isspace(*p))
+                                if(!isspace((unsigned char)*p))
                                     break;
                                 *p = '\0';
                                 }
@@ -421,7 +421,7 @@ optionStruct::optionStruct():
                                             {
                                             if(*q == ';')
                                                 break;
-                                            if(!isspace(*q))
+                                            if(!isspace((unsigned char)*q))
                                                 {
                                                 string = false;
                                                 }

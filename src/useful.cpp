@@ -158,9 +158,9 @@ char * coption(const char * key)
                 if(startp)
                     {
                     char * endp;
-                    while(isspace(*++startp))
+                    while(isspace((unsigned char)*++startp))
                         ;
-                    for(endp = startp;*endp && !isspace(*endp);++endp)
+                    for(endp = startp;*endp && !isspace((unsigned char)*endp);++endp)
                         ;
                     *endp = '\0';
                     /*if(fp)
