@@ -3,8 +3,8 @@ Version 1: Brill's tagger
 Version 2: CST's adaptation (standard C, removal of language dependent code, introduction of xoptions, handling of capitals in headlines
 Version 3: handling of XML (Previously called version 1, because Brill had not defined a version.)
 */
-#define CSTTAGGERVERSION "3.5"
-#define CSTTAGGERDATE "2016.05.03"
+#define CSTTAGGERVERSION "3.6"
+#define CSTTAGGERDATE "2016.05.17"
 #define CSTTAGGERCOPYRIGHT "MIT, University of Pennsylvania and Center for Sprogteknologi"
 
 #include "useful.h" // dupl
@@ -153,67 +153,33 @@ int main(int argc, char **argv)
                         ,Option.Bigrams
                         ,Option.Lexicalrulefile
                         ,Option.Contextualrulefile
-//                        ,Option.intermed           // m
                         ,Option.wdlistname         // w
-                        //,splitnum           // s
                         ,Option.START_ONLY_FLAG    // S
                         ,Option.FINAL_ONLY_FLAG    // F
                         )
       )
         return 1;
 
-/*
 #if STREAM
-    ofstream * fintermed = NULL;
-#else
-    FILE * fintermed = NULL;
-#endif
-    if(Option.intermed)
-        {
-#if STREAM
-        fintermed = new ofstream(Option.intermed);
-        if(!fintermed->is_open())
-#else
-        fintermed = fopen(Option.intermed,"w");
-        if(!fintermed)
-#endif
-            {
-            fprintf(stderr,"Cannot open intermediary file \"%s\" for writing\n",Option.intermed);
-            exit(1);
-            }
-        }
-*/
-
-#if STREAM
-    ifstream corpus(Option.Corpus);
+    ifstream corpus(Option.Corpus,ios::binary);
     corpus.unsetf(ios::skipws); // do not skip white space
-    theTagger.analyse(corpus,/*fintermed,*/cout,&Option);
+    theTagger.analyse(corpus,cout,&Option);
 #else
-    FILE * out = stdout;//fopen("output.txt","wb");
-    FILE * corpus = fopen(Option.Corpus,"r");
+    FILE * out = stdout;
+    FILE * corpus = fopen(Option.Corpus,"rb");
     if(!corpus)
         {
         fprintf(stderr,"Cannot open file %s for reading\n",Option.Corpus);
         return 1;
         }
-    theTagger.analyse(corpus,/*fintermed,*/out,&Option);
+    theTagger.analyse(corpus,out,&Option);
 #endif
     
 #if STREAM
-    /*
-    if(fintermed)
-        {
-        delete fintermed;
-        }*/
 #else
     if(out != stdout)
         fclose(out);
     fclose(corpus);
-    /*
-    if(fintermed)
-        {
-        fclose(fintermed);
-        }*/
 #endif
 
 #if TIMING

@@ -7,6 +7,8 @@ MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF
 THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
 PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 
+/* Adapted by Bart Jongejan. (Conversion to Standard C and more.) */
+
 #include "substring.h"
 #include "hashmap.h"
 #include "utf8func.h"
@@ -23,9 +25,9 @@ PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 #include <string.h>
 #include <fcntl.h>
 #include <malloc.h>
-#include <stdlib.h> /* Bart Jongejan 20010220, strtol */
-#include <ctype.h> /* Bart Jongejan 20010220, isupper */
-#include <locale.h> /* Bart Jongejan 20010220, setlocale */
+#include <stdlib.h>
+#include <ctype.h>
+#include <locale.h>
 
 
 
@@ -63,40 +65,32 @@ int start_state_tagger
     char **therule,**therule2;
     char noun[20] = {'\0'},proper[20] = {'\0'};
     int rulesize,tempcount;
-    unsigned int count,count2,count3; /*Bart 20030225*/
+    unsigned int count,count2,count3;
     char
         tempstr_space[MAXWORDLEN+MAXAFFIXLEN],bigram_space[MAXWORDLEN*2];
     int EXTRAWDS= 0;
-    /* Bart Jongejan 20010216 */
     long ConvertToLowerCaseIfFirstWord = option("ConvertToLowerCaseIfFirstWord");
     if(ConvertToLowerCaseIfFirstWord == -1)
         {
         ConvertToLowerCaseIfFirstWord = Options->ConvertToLowerCaseIfFirstWord ? 1 : 0;
         }
 
-    //long ShowIfLowercaseConversionHelped = option("ShowIfLowercaseConversionHelped");
     long ConvertToLowerCaseIfMostWordsAreCapitalized = option("ConvertToLowerCaseIfMostWordsAreCapitalized");
     if(ConvertToLowerCaseIfMostWordsAreCapitalized == -1)
         {
         ConvertToLowerCaseIfMostWordsAreCapitalized = Options->ConvertToLowerCaseIfMostWordsAreCapitalized ? 1 : 0;
         }
-    long Verbose = option("Verbose"); // Bart 20030224
+    long Verbose = option("Verbose");
     if(Verbose == -1)
         {
         Verbose = Options->Verbose ? 1 : 0;
         }
-    //char * language = coption("Language"); // not needed since transition to Unicode
-    char * tmp; // Bart 20030224
-    /*if(language)
-        {
-        setlocale(LC_CTYPE,language);
-        }*/
+    char * tmp;
     tmp = coption("Noun");
     if(tmp)
         {
         strncpy(noun,tmp,sizeof(noun) - 1);
         noun[sizeof(noun)  - 1] = '\0';
-        //                streamout("noun = {%s}",noun);
         }
     else if(Options->Noun)
         {
@@ -108,7 +102,6 @@ int start_state_tagger
         {
         strncpy(proper,tmp,sizeof(proper) - 1);
         proper[sizeof(proper)  - 1] = '\0';
-        //                streamout("proper = {%s}",proper);
         }
     else if(Options->Proper)
         {
@@ -131,28 +124,19 @@ int start_state_tagger
     /*********************************************************/
     /* Read in Corpus to be tagged.  Actually, just record word list, */
     /* since each word will get the same tag, regardless of context. */
-    //ntot_hash = Registry_create(Registry_strcmp,Registry_strhash);
     ntot_hash = new hashmap::hash<strng>(&strng::key,1000);
 
     Corpus->rewind();
     
-    //Corpus = fopen(Corpus,"r");
-
-    //*Word_corpus_array = word_corpus_array = (char **)malloc(sizeof(char *) * Corpus->numberOfTokens + 2*Corpus->);
-    //*Tag_corpus_array = tag_corpus_array = (char **)malloc(sizeof(char *) * Corpus->numberOfTokens);
     INCREMENT
     INCREMENT
 
     
     while(Corpus->getline()) 
         {
-        //if (not_just_blank(line))
             {
-            int startOfLine = Bool_TRUE; /* Bart Jongejan 20010216 */
-            int heading = Bool_FALSE; /* Bart Jongejan 20010220 */
-//            line[strlen(line) - 1] = '\0';
-//            perl_split_ptr = perl_split_independent(line);
-//            temp_perl_split_ptr = perl_split_ptr;
+            int startOfLine = Bool_TRUE;
+            int heading = Bool_FALSE;
             if(ConvertToLowerCaseIfMostWordsAreCapitalized)
                 {
                 heading = CheckLineForCapitalizedWordsOrNonAlphabeticStuff(Corpus);
@@ -183,9 +167,9 @@ int start_state_tagger
         }
     Corpus->rewind();
     
-    if(Verbose) // Bart 20030224
+    if(Verbose)
         {
-        /*//Bart 20010425*/ 	 fprintf(stderr,"START STATE TAGGER:: CORPUS READ\n");  
+        fprintf(stderr,"START STATE TAGGER:: CORPUS READ\n");  
         }
     
     
@@ -198,11 +182,11 @@ int start_state_tagger
     YOU CAN USE OR EDIT ONE OF THE TWO START STATE ALGORITHMS BELOW, 
 # OR REPLACE THEM WITH YOUR OWN ************************/
     
-    if(!*noun) // Bart 20030224
+    if(!*noun)
         {
         strcpy(noun,"NN");
         }
-    if(!*proper) // Bart 20030224
+    if(!*proper)
         {
         strcpy(proper,"NNP");
         }
@@ -243,12 +227,9 @@ int start_state_tagger
     size_t notokens = length;
     for (count= 0;count < maxcount;++count) 
         {
-        //tempstr = (char *)Darray_get(rule_array,count);
         therule = (char **)Darray_get(rule_array,count);
-        /*fprintf(stderr,"RULE IS: %s\n",tempstr);*/
-        if(Verbose) // Bart 20030224
-            /*//Bart 20010425*/ fprintf(stderr,"s");
-        //therule = perl_split_independent(tempstr);
+        if(Verbose)
+            fprintf(stderr,"s");
             /* we don't worry about freeing "rule" space, as this is a small fraction
             of total memory used */
         therule2 = &therule[1];
@@ -293,12 +274,12 @@ int start_state_tagger
                 if (strcmp(tag_array[count2]->val(),therule[rulesize-1]) != 0) 
                     {
                     const char * tempstr = tag_array[count2]->key();
-                    for (count3 = 0;(int)/*Bart 20030225*/count3 < atoi(therule[2]);++count3) 
+                    for (count3 = 0;(int)count3 < atoi(therule[2]);++count3) 
                         {
                         if (tempstr[count3] != therule[0][count3])
                             break;
                         }
-                    if ((int)/*Bart 20030225*/count3 == atoi(therule[2])) 
+                    if ((int)count3 == atoi(therule[2])) 
                         {
                         tempstr += atoi(therule[2]);
                         if (  Registry_get(lexicon_hash,(char *)tempstr) != NULL 
@@ -321,14 +302,14 @@ int start_state_tagger
                 if (strcmp(tag_array[count2]->val(),therule[0]) == 0)
                     { 
                     const char * tempstr=tag_array[count2]->key();
-                    for (count3 = 0;(int)/*Bart 20030225*/count3 < atoi(therule2[2]);++count3) 
+                    for (count3 = 0;(int)count3 < atoi(therule2[2]);++count3) 
                         {
                         if (tempstr[count3] != therule2[0][count3])
                             {
                             break;
                             }
                         }
-                    if ((int)/*Bart 20030225*/count3 == atoi(therule2[2])) 
+                    if ((int)count3 == atoi(therule2[2])) 
                         {
                         tempstr += atoi(therule2[2]);
                         if (  Registry_get(lexicon_hash,(char *)tempstr) != NULL 
@@ -352,14 +333,14 @@ int start_state_tagger
                 if (strcmp(tag_array[count2]->val(),therule[rulesize-1]) != 0) 
                     {
                     const char * tempstr = tag_array[count2]->key();
-                    for (count3 = 0;(int)/*Bart 20030225*/count3 < atoi(therule[2]);++count3) 
+                    for (count3 = 0;(int)count3 < atoi(therule[2]);++count3) 
                         {
                         if (tempstr[count3] != therule[0][count3])
                             {
                             break;
                             }
                         }
-                    if ((int)/*Bart 20030225*/count3 == atoi(therule[2])) 
+                    if ((int)count3 == atoi(therule[2])) 
                         {
                         tag_array[count2]->setVal(therule[rulesize-1]);
                         }
@@ -374,14 +355,14 @@ int start_state_tagger
                 if (strcmp(tag_array[count2]->val(),therule[0]) == 0)
                     { 
                     const char * tempstr=tag_array[count2]->key();
-                    for (count3 = 0;(int)/*Bart 20030225*/count3 < atoi(therule2[2]);++count3) 
+                    for (count3 = 0;(int)count3 < atoi(therule2[2]);++count3) 
                         {
                         if (tempstr[count3] != therule2[0][count3])
                             {
                             break;
                             }
                         }
-                    if ((int)/*Bart 20030225*/count3 == atoi(therule2[2])) 
+                    if ((int)count3 == atoi(therule2[2])) 
                         {
                         tag_array[count2]->setVal(therule[rulesize-1]);
                         }
@@ -551,7 +532,6 @@ int start_state_tagger
                     const char * A = tag_array[count2]->key();
                     char * B = therule[0];
                     sprintf(tempstr_space,"%s%s", A,B);
-//                    sprintf(tempstr_space,"%s%s", tag_array[count2]->key(), therule[0]);
                     if (  Registry_get(lexicon_hash,(char *)tempstr_space) != NULL
                        || (  EXTRAWDS 
                           && Registry_get(wordlist_hash,(char *)tempstr_space) != NULL
@@ -647,9 +627,9 @@ int start_state_tagger
         
         
         }
-    if(Verbose) // Bart 20030224
+    if(Verbose)
         {
-        /*//Bart 20010425*/ 	fprintf(stderr,"\n");
+        fprintf(stderr,"\n");
         }
     
     
@@ -666,13 +646,14 @@ int start_state_tagger
             tag_hash->insert(new strng(name, val),bucket);
             }
         }
-    
+
+    for (int i = 0; i < length; i++) delete tag_array[i];
     delete [] tag_array;
 
     while(Corpus->getline()) 
         {
-        int startOfLine = Bool_TRUE; /* Bart Jongejan 20010216 */
-        int heading = Bool_FALSE; /* Bart Jongejan 20010220 */
+        int startOfLine = Bool_TRUE;
+        int heading = Bool_FALSE;
         if(ConvertToLowerCaseIfMostWordsAreCapitalized)
             {
             heading = CheckLineForCapitalizedWordsOrNonAlphabeticStuff(Corpus);
@@ -713,8 +694,7 @@ int start_state_tagger
         }
     Corpus->rewind();
 
-    //printf("tag_hash size %d\n",Registry_entry_count(tag_hash));
-
+    tag_hash->deleteThings();
     delete tag_hash;
     return corpus_array_index;
     }

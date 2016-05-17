@@ -1,0 +1,17 @@
+2016.05.17
+
+Start of changelog.
+There have been several versions of taggerXML before this changelog was
+started.
+
+taggerXML is based on Eric Brill's part of speech tagger. The original C-code
+is changed to C++ code and made platform-agnostic. (The original code was for
+UNIX platforms only.)
+In this version a number of improvements have been made. Janez Brank suggested
+a number of improvements to get rid of memory leaks. These have all been
+implemented.
+The program could crash if the last line of text input (one sentence-per-line)
+didn't end with whitespace. This is solved.
+The program was not stable if #define STREAM 1 (in defines.h). This is solved.
+A lot of commented code and useless comments were removed. There is still a
+lot left.

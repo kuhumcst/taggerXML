@@ -49,7 +49,7 @@ char * readValue::read(char * kar,field *& nextfield)
     char * nxt = kar;
     if(next)
         nxt = next->read(kar,nextfield);
-    if(nxt && /*Bart 20081218*/*nxt)
+    if(nxt && *nxt)
         {
         size_t ln = strlen(nxt);
         if(pos + ln >= len)

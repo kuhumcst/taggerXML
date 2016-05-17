@@ -7,6 +7,8 @@ MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF
 THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
 PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 
+/* Adapted by Bart Jongejan. (Conversion to Standard C and more.) */
+
 #include "XMLtext.h"
 #include "registry.h"
 #include "useful.h"
@@ -19,9 +21,7 @@ PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 #include "tagger.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>//Bart 20010108
-
-
+#include <stdlib.h>
 
 #if STREAM
 # include <fstream>
@@ -45,19 +45,13 @@ using namespace std;
 
 
 static const char * Lexicon;
-//static const char * Corpus;
 static const char * Bigrams;
 static const char * Lexicalrulefile;
 static const char * Contextualrulefile;
-//static int splitnum;
-//static char * intermed;
 static bool START_ONLY_FLAG;
 static bool FINAL_ONLY_FLAG;
 static char * wdlistname; 
 
-//static char ** word_corpus_array;
-//static char ** tag_corpus_array;
-//static int allocatedcorpussize;
 static int corpussize;
 static int linenums;
 static int tagnums;
@@ -74,14 +68,6 @@ static Registry SEENTAGGING;
 static Registry WORDS;
 #endif
 #endif
-
-
-
-
-
-
-
-
 
 bool createRegistries
         (
@@ -306,8 +292,6 @@ bool createRegistries
             {
             char * tempruleptr;
             line[strlen(line) - 1] = '\0';
-//            linecopy = mystrdup(line);
-//            Darray_addh(rule_array,linecopy);	   
             perl_split_ptr = perl_split(line);
             Darray_addh(rule_array,perl_split_ptr);	   
             if (strcmp(perl_split_ptr[1],"goodright") == 0) 
@@ -346,9 +330,6 @@ bool createRegistries
                     DECREMENT
                     }  
                 }
-//            free(*perl_split_ptr);
-//            free(perl_split_ptr);
-//            allocated -= 2;
             }
         }
     fclose(rulefile);
@@ -370,9 +351,7 @@ bool createRegistries
             char bigram_space[MAXWORDLEN*2];
             line[strlen(line) - 1] = '\0';
             sscanf(line,"%s%s",bigram1,bigram2);
-            if (  Registry_get(good_right_hash,bigram1) 
-//Bart 20040203               && Registry_get(ntot_hash,bigram2)
-               ) 
+            if (Registry_get(good_right_hash,bigram1)) 
                 {
                 sprintf(bigram_space,"%s %s",bigram1,bigram2);
                 linecopy = mystrdup(bigram_space);
@@ -382,9 +361,7 @@ bool createRegistries
                     DECREMENT
                     } 
                 }
-            if (  Registry_get(good_left_hash,bigram2) 
-//Bart 20040203               && Registry_get(ntot_hash,bigram1)
-               ) 
+            if (Registry_get(good_left_hash,bigram2)) 
                 {
                 sprintf(bigram_space,"%s %s",bigram1,bigram2);
                 linecopy = mystrdup(bigram_space);
@@ -474,18 +451,13 @@ static void deleteRegistries(
 tagger::tagger()
     {
     Lexicon = NULL;
-//    Corpus = NULL;
     Bigrams = NULL;
     Lexicalrulefile = NULL;
     Contextualrulefile = NULL;
-//    word_corpus_array = NULL;
-//    tag_corpus_array = NULL;
-//    allocatedcorpussize = 0;
     corpussize = 0;
     linenums = 0;
     tagnums = 0;
     wdlistname = NULL; 
-//    intermed = NULL;
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
     SEENTAGGING = NULL;
@@ -505,9 +477,7 @@ bool tagger::init(
                 const char * _Bigrams,
                 const char * _Lexicalrulefile,
                 const char * _Contextualrulefile,
-                //char *_intermed,
                 char * _wdlistname,
-                //int _splitnum,
                 bool _START_ONLY_FLAG,
                 bool _FINAL_ONLY_FLAG
                 )
@@ -516,32 +486,15 @@ bool tagger::init(
     Bigrams = _Bigrams;
     Lexicalrulefile = _Lexicalrulefile;
     Contextualrulefile = _Contextualrulefile;
-    //splitnum = _splitnum;
-//    intermed = _intermed;
     START_ONLY_FLAG = _START_ONLY_FLAG;
     FINAL_ONLY_FLAG = _FINAL_ONLY_FLAG;
     wdlistname = _wdlistname;
-    /*if (intermed && splitnum) 
-        {
-        fprintf(stderr,"Intermediate Files Not Permitted With Split option\n");
-        return false;
-        }*/
     if (  (  START_ONLY_FLAG 
           && FINAL_ONLY_FLAG
           ) 
-/*
-       || (  (  START_ONLY_FLAG 
-             || FINAL_ONLY_FLAG
-             ) 
-          && intermed
-          ) 
-*/
        || (  FINAL_ONLY_FLAG 
           && wdlistname
           ) 
-       /*|| (  START_ONLY_FLAG 
-          && splitnum
-          )*/
        ) 
         {
         fprintf(stderr,"This set of options does not make sense.\n");
@@ -575,20 +528,17 @@ bool tagger::init(
 
 
 #if STREAM
-bool tagger::analyse(istream & CORPUS,/*ostream * fintermed,*/ostream & fpout,optionStruct * Options)
+bool tagger::analyse(istream & CORPUS,ostream & fpout,optionStruct * Options)
 #else
-bool tagger::analyse(FILE * CORPUS,/*FILE * fintermed,*/FILE * fpout,optionStruct * Options)
+bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
 #endif
     {
-    //FILE *fp;
     text * Text = NULL;
     if(Options->XML)
         {
         Text = new XMLtext
            (CORPUS
            ,"$w\\s"//char * Iformat
-           //,true//bool nice
-           //,0//unsigned long int size
            ,true//bool XML
            ,Options->ancestor//"p"//const char * ancestor // restrict POS-tagging to segments that fit in ancestor elements
            ,Options->segment
@@ -600,68 +550,42 @@ bool tagger::analyse(FILE * CORPUS,/*FILE * fintermed,*/FILE * fpout,optionStruc
         }
     else
         {
-        Text = new text(CORPUS,/*true,*/FINAL_ONLY_FLAG);
+        Text = new text(CORPUS,FINAL_ONLY_FLAG);
         }
 
 
-//     if (! wdlistname) 
+    if(!FINAL_ONLY_FLAG) 
+        {
+        corpussize = -1 + start_state_tagger
+             (
+             LEXICON_HASH,
+             Text,
+             BIGRAM_HASH,
+             RULE_ARRAY,
+             WORDLIST_HASH,
+             wdlistname,
+             Options
+             );
+        }
+    if(!START_ONLY_FLAG)
          {
-         if(!FINAL_ONLY_FLAG) 
-             {
-             corpussize = -1 + start_state_tagger
-                 (
-                 LEXICON_HASH,
-                 Text,
-                 BIGRAM_HASH,
-                 RULE_ARRAY,
-                 WORDLIST_HASH,
-                 wdlistname,
-                 Options
-                 );
-             }
-         if(!START_ONLY_FLAG)
-             {
-             final_state_tagger(Contextualrulefile
+         final_state_tagger(Contextualrulefile
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
-                 , SEENTAGGING
+                           , SEENTAGGING
 #endif
 #if WITHWORDS
-                 , WORDS
+                           , WORDS
 #else
-                 , LEXICON_HASH
+                           , LEXICON_HASH
 #endif
 #endif
-                 ,Text
-                 ,Options
-                 );
-             }
-         }
-/*
-    else / * + wordlist * /   
-        {
-        if (! intermed)  // -intermed 
-            {
-            if (START_ONLY_FLAG)
-                sprintf(COMMAND,"%s %s %s %s %s %s",
-                START_PROG, Lexicon, Corpus, Bigrams, Lexicalrulefile, wdlistname);
-            else
-                sprintf(COMMAND,"%s %s %s %s %s %s | %s %s %s %d %d %d",
-                START_PROG, Lexicon, Corpus, Bigrams, Lexicalrulefile, wdlistname,
-                END_PROG, Contextualrulefile, Lexicon,allocatedcorpussize,linenums,tagnums);
-            }
-        else  // + intermed 
-            sprintf(COMMAND,"%s %s %s %s %s %s | tee %s |  %s %s %s %d %d %d",
-            START_PROG, Lexicon, Corpus, Bigrams, Lexicalrulefile,
-            wdlistname,
-            intermed,
-            END_PROG, Contextualrulefile, Lexicon,allocatedcorpussize,linenums,tagnums);
+                           ,Text
+                           ,Options
+                           );
         }
-*/
-    /*
-    start-state-tagger.exe LEXICON.BROWN ..\temp\sents.txt Bigrams LEXICALRULEFILE.BROWN | final-state-tagger.exe CONTEXTUALRULEFILE.BROWN LEXICON.BROWN 3388 52032 61947
-    */
     Text->printUnsorted(fpout);
+    delete Text;
     return true;
     }
 
@@ -686,7 +610,6 @@ tagger::~tagger()
 #endif
 #endif
         LEXICON_HASH,BIGRAM_HASH,WORDLIST_HASH);
-//    printf("allocated:%d\n",allocated);
     }
 
 

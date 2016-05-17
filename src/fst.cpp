@@ -131,7 +131,7 @@ int final_state_tagger( const char * Contextualrulefile
         exit(1);
         }
     contextualRules[changefilesize] = '\0';
-    corpus_max_index = Corpus->numberOfTokens;//tag_corpus_array_index -1;
+    corpus_max_index = Corpus->numberOfTokens;
     line = contextualRules;
     char * eol = contextualRules;
     int linecnt = 0;
@@ -604,5 +604,6 @@ int final_state_tagger( const char * Contextualrulefile
         }
 
     fclose(changefile);
+    delete[] contextualRules;
     return 0;  /* Bart 20030415 */
     }

@@ -14,7 +14,7 @@ const char * token::getWord()
     substring::reset();
     if(this->wordPrePos)
         {
-        return wordPrePos->key();//Wordpos.itsWord();
+        return wordPrePos->key();
         }
     else
         return this->Wordpos.getStart();
@@ -214,9 +214,9 @@ text::text(/*bool nice*/)
     }
 
 #if STREAM
-text::text(istream & fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
+text::text(istream & fpi,bool FINAL_ONLY_FLAG)
 #else
-text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
+text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
 #endif
            :alltext(NULL)
            ,total(0)
@@ -243,8 +243,9 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
         alltext = new char[filesize+1];
         char * p = alltext;
 #if STREAM
+        char * e = alltext + filesize;
         char kar;
-        while(fpi.good())
+        while(p < e)
             {
             fpi >> kar;
 #else
@@ -258,8 +259,6 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
                     {
                     case '\n':
                     case '\r':
-                        //inaline = false;
-                        /* drop through */
                     case ' ':
                     case '\t':
                         intoken = false;
@@ -274,18 +273,11 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
                     {
                     case '\n':
                     case '\r':
-                        //inaline = false;
-                        /* drop through */
                     case ' ':
                     case '\t':
                         break;
                     default:
                         intoken = true;
-/*                        if(!inaline)
-                            {
-                            inaline = true;
-                            ++lineno;
-                            }*/
                         ++numberOfTokens;
                     }
                 }
@@ -299,6 +291,7 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
         char * endpos = alltext;
         token * Tok = NULL;
         bool tokenset = false;
+        intoken = false;
         for(p = alltext;*p;++p)
             {
             if(intoken)
@@ -422,11 +415,10 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
     }
 
     int X = 0;
-        token::token():wordPrePos(0),PreTag(0),Pos(0),firstOfLine(false),lastOfLine(false)
-            {
-            ++X;
-            }
-
+    token::token():wordPrePos(0),PreTag(0),Pos(0),firstOfLine(false),lastOfLine(false)
+        {
+        ++X;
+        }
 
     void token::setWord(char * start,char * end,text * Text)
         {
@@ -445,11 +437,11 @@ text::text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG)
 
 void text::printUnsorted(
 #if STREAM
-                            ostream & fpo
+                        ostream & fpo
 #else
-                            FILE * fpo            
+                        FILE * fpo            
 #endif
-                            )
+                        )
     {
     if(this->alltext)
         {
@@ -491,6 +483,8 @@ void text::printUnsorted(
     
 text::~text()
     {
+    if (Hash) { Hash->deleteThings(); delete Hash; }
+    if (alltext) delete[] alltext;
     delete fields;
 #ifdef COUNTOBJECTS
     --COUNT;

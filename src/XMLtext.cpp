@@ -646,24 +646,13 @@ void CallBackEmptyTag(void * arg)
     ((XMLtext *)arg)->CallBackEmptyTag();
     }
 
+XMLtext::XMLtext(
 #if STREAM
-XMLtext::XMLtext(istream & fpi
-           ,const char * Iformat
-           //,bool nice
-           //,unsigned long int size
-           ,bool XML
-           ,const char * ancestor // if not null, restrict POS-tagging to elements that are offspring of ancestor
-           ,const char * segment // Optional segment delimiter. E.g. br: <br /> or s: <s> ... </s>
-           ,const char * element // if null, analyse all PCDATA that is text
-           ,const char * wordAttribute // if null, word is PCDATA
-           ,const char * PreTagAttribute // Fetch pretagging from PreTagAttribute
-           ,const char * POSAttribute // Store POS in POSAttribute
-           )
+            istream & fpi
 #else
-XMLtext::XMLtext(FILE * fpi
+            FILE * fpi
+#endif
            ,const char * Iformat
-//           ,bool nice
-           //,unsigned long int size
            ,bool XML
            ,const char * ancestor // restrict POS-tagging to segments that fit in ancestor elements
            ,const char * segment // Optional segment delimiter. E.g. br: <br /> or s: <s> ... </s>
@@ -672,8 +661,7 @@ XMLtext::XMLtext(FILE * fpi
            ,const char * PreTagAttribute // Fetch pretagging from PreTagAttribute
            ,const char * POSAttribute // Store POS in POSAttribute
            )
-#endif
-           :text(/*nice*/)
+           :text()
            ,ancestor(ancestor)
            ,segment(segment)
            ,element(element)
@@ -706,9 +694,12 @@ XMLtext::XMLtext(FILE * fpi
             {
             alltext = new char[filesize+1];
             char * p = alltext;
-            while(fpi.good())
+            char * e = alltext + filesize;
+            while(p < e)
                 {
-                fpi >> *p++;
+                char kar;
+                fpi >> kar;
+                *p++ = kar;
                 }
             *p = '\0';
             fpi.seekg(0,ios::beg);
@@ -723,7 +714,10 @@ XMLtext::XMLtext(FILE * fpi
             alltext = new char[filesize+1];
             char * p = alltext;
             while((kar = getc(fpi)) != EOF)
+                {
                 *p++ = (char)kar;
+                assert(p - alltext < filesize+1);
+                }
             *p = '\0';
             ::rewind(fpi);
             }

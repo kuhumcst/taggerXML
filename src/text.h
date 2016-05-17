@@ -79,7 +79,7 @@ class token
             }
         const char * getWord();
 
-        token();//:wordPrePos(0),/*Word(0),*/PreTag(0),Pos(0),firstOfLine(false),lastOfLine(false){}
+        token();
         ~token()
             {
             delete [] PreTag;
@@ -124,13 +124,8 @@ class corpus
         token * Token;
         token * CurrToken;
         void rewind(){startOfLine = 1234;endOfLine = -1;substring::reset();}
-      /*  void lineStart()
-            {
-            wordno = startOfLine - 1;
-            }*/
         const char * getWord()
             {
-            //substring::reset();
             if(++wordno <= endOfLine)
                 {
                 return Token[wordno].getWord();
@@ -188,7 +183,7 @@ class corpus
                     return &staart; 
             return Token + count + n;
             }
-        bool getline(/*linea & line*/)
+        bool getline()
             {
             startOfLine = ++endOfLine;
             wordno = startOfLine - 1;
@@ -196,14 +191,13 @@ class corpus
                 {
                 while(!Token[endOfLine].lastOfLine && endOfLine < numberOfTokens)
                     ++endOfLine;
-/*                line.start = startOfLine;
-                line.end = endOfLine;*/
                 return true;
                 }
             else
                 return false;
             }
         corpus();
+        ~corpus() { if (Token) delete[] Token; }
     };
 
 
@@ -214,9 +208,6 @@ class text: public corpus
         static int COUNT;
 #endif
     private:
-        /*
-        token * Token;
-        */
 #if ESCAPESLASH
         virtual const char * convert(const char * s);
 #else
@@ -228,22 +219,11 @@ class text: public corpus
     protected:
         char * alltext;
         size_t N;
-        //Word ** Root;
-        //const Word ** tunsorted;
-        //unsigned long int * Lines;
-        //unsigned long int lineno;
-        //bool sorted;
         unsigned long int total;
-        //unsigned long int reducedtotal;
         field * fields;
         void AddField(field * fld);
-        field * translateFormat(const char * Iformat,field *& wordfield/*,field *& tagfield*/);
-    protected:
-        //bool InputHasTags;
-    private:
-    protected:
+        field * translateFormat(const char * Iformat,field *& wordfield);
         void insert(const char * w, const char * tag);
-    private:
     public:
         char * ch;
         int newcnt;
@@ -255,25 +235,21 @@ class text: public corpus
             {
             total += inc;
             }
-        //static bool setFormat(const char * format,const char * bformat,const char * Bformat,bool InputHasTags);
-        text(/*bool nice*/);
+        text();
 #if STREAM
-        text(istream & fpi,/*bool nice,*/bool FINAL_ONLY_FLAG);
+        text(istream & fpi,bool FINAL_ONLY_FLAG);
 #else
-        text(FILE * fpi,/*bool nice,*/bool FINAL_ONLY_FLAG);
+        text(FILE * fpi,bool FINAL_ONLY_FLAG);
 #endif
         virtual ~text();
         strng * insert(const char * w);
-        //strng * createUnTagged(const char * w);
-        //void createTagged(const char * w, const char * tag);
         virtual void printUnsorted(
 #if STREAM
             ostream & fpo
 #else
             FILE * fpo            
 #endif
-            )/* = 0*/;
-        //void makeList();
+            );
     };
 
 #endif
