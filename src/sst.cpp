@@ -647,7 +647,7 @@ int start_state_tagger
             }
         }
 
-    for (int i = 0; i < length; i++) delete tag_array[i];
+    for (size_t i = 0; i < length; i++) delete tag_array[i];
     delete [] tag_array;
 
     while(Corpus->getline()) 
