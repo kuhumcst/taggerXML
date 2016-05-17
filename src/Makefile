@@ -36,6 +36,8 @@ CCLINKDYNAMIC=g++
 CCCREATELIB=g++ -shared -Wl,-soname,$(SONAME)
 RM=rm -f
 
+include config.mak
+
 CSTTAGGERSRC= \
 	main.cpp
 
