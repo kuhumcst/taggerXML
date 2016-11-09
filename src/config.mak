@@ -1,0 +1,1 @@
+BIN=/usr/local/bin/
