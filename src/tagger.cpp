@@ -553,7 +553,8 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
         Text = new text(CORPUS,FINAL_ONLY_FLAG);
         }
 
-
+    hashmap::hash<strng> * tag_hash;
+    tag_hash = new hashmap::hash<strng>(&strng::key,1000);
     if(!FINAL_ONLY_FLAG) 
         {
         corpussize = -1 + start_state_tagger
@@ -564,7 +565,8 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
              RULE_ARRAY,
              WORDLIST_HASH,
              wdlistname,
-             Options
+             Options,
+             tag_hash
              );
         }
     if(!START_ONLY_FLAG)
@@ -585,6 +587,8 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
                            );
         }
     Text->printUnsorted(fpout);
+    tag_hash->deleteThings();
+    delete tag_hash;
     delete Text;
     return true;
     }

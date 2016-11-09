@@ -1,6 +1,7 @@
 #ifndef SST_H
 #define SST_H
 
+#include "hashmap.h"
 #include "XMLtext.h"
 #include "registry.h"
 #include "defines.h"
@@ -61,7 +62,8 @@ int start_state_tagger
         Darray rule_array,
         Registry wordlist_hash,
         const char * Wordlist,
-        optionStruct * Options
+        optionStruct * Options,
+        hashmap::hash<strng> * tag_hash
         );
 
 #endif

@@ -15,3 +15,6 @@ didn't end with whitespace. This is solved.
 The program was not stable if #define STREAM 1 (in defines.h). This is solved.
 A lot of commented code and useless comments were removed. There is still a
 lot left.
+
+version 3.7 - 2016.11.09 
+Enlarged scope of tag_hash.

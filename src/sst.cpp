@@ -10,7 +10,7 @@ PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 /* Adapted by Bart Jongejan. (Conversion to Standard C and more.) */
 
 #include "substring.h"
-#include "hashmap.h"
+//#include "hashmap.h"
 #include "utf8func.h"
 #include "darray.h"
 #include "lex.h"
@@ -54,12 +54,13 @@ int start_state_tagger
         Darray rule_array,
         Registry wordlist_hash,
         const char * Wordlist,
-        optionStruct * Options
+        optionStruct * Options,
+        hashmap::hash<strng> * tag_hash
         )
     {
     int corpus_array_index = 0;
     hashmap::hash<strng> * ntot_hash; // for words (types) that are not in the lexicon.
-    hashmap::hash<strng> * tag_hash;
+//    hashmap::hash<strng> * tag_hash;
     strng ** tag_array;
     char *tempstr,*tempstr2;
     char **therule,**therule2;
@@ -635,7 +636,7 @@ int start_state_tagger
     
     /* now go from array to hash table */
     
-    tag_hash = new hashmap::hash<strng>(&strng::key,1000);
+//    tag_hash = new hashmap::hash<strng>(&strng::key,1000);
     for (count= 0;count < length;++count) 
         {
         const char * name = tag_array[count]->key();
@@ -693,9 +694,10 @@ int start_state_tagger
         substring::reset();
         }
     Corpus->rewind();
-
+/*
     tag_hash->deleteThings();
     delete tag_hash;
+*/
     return corpus_array_index;
     }
 
