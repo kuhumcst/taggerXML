@@ -22,6 +22,10 @@ SRCDIR     = .
 HASHDIR    = ../../hashmap/src
 LETTERFUNCDIR    = ../../letterfunc/src
 SGMLDIR    = ../../parsesgml/src
+L_DIR      = .
+LIBDIR     = .
+BINDIR     = ../Bin_and_Data
+
 GCCINC += -I$(SRCDIR) -I$(HASHDIR) -I$(LETTERFUNCDIR) -I$(SGMLDIR)
 
 CC=g++ -O3 -Wall -pedantic -DNDEBUG 
@@ -90,6 +94,21 @@ TAGGEROBJS=\
 	word.o \
 	XMLtext.o
 
+OBJ = $(LIBDIR)/lex.o \
+	$(LIBDIR)/useful.o \
+	$(LIBDIR)/darray.o \
+	$(LIBDIR)/registry.o \
+	$(LETTERFUNCDIR)/letter.cpp \
+	$(LETTERFUNCDIR)/letterfunc.cpp \
+	$(LETTERFUNCDIR)/utf8func.cpp \
+	$(LIBDIR)/mygets.o \
+	$(LIBDIR)/memory.o
+
+
+L_TARGETS = contextual-rule-learn \
+            kbest-contextual-rule-learn \
+            fix-kbest-rule-learn
+
 #
 #   Dependencies start here.    #
 #			       #
@@ -108,6 +127,9 @@ $(REALNAME) : $(TAGGEROBJS)
 
 $(PNAMEDYNAMICLIB): $(REALNAME) $(CSTTAGGEROBJS)
 	$(CCLINKDYNAMIC) $(CSTTAGGEROBJS) $(REALNAME) -o $@
+
+$(L_TARGETS) : $(OBJ)
+	$(CC) $(OBJ) -o $(BINDIR)/$@ $(L_DIR)/$@.cpp
 
 all: $(PNAMESTATIC) $(PNAMEDYNAMIC) $(REALNAME) $(PNAMEDYNAMICLIB) ${L_TARGETS}
 
