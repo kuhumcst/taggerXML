@@ -98,9 +98,9 @@ OBJ = $(LIBDIR)/lex.o \
 	$(LIBDIR)/useful.o \
 	$(LIBDIR)/darray.o \
 	$(LIBDIR)/registry.o \
-	$(LETTERFUNCDIR)/letter.cpp \
-	$(LETTERFUNCDIR)/letterfunc.cpp \
-	$(LETTERFUNCDIR)/utf8func.cpp \
+	$(LETTERFUNCDIR)/letter.o \
+	$(LETTERFUNCDIR)/letterfunc.o \
+	$(LETTERFUNCDIR)/utf8func.o \
 	$(LIBDIR)/mygets.o \
 	$(LIBDIR)/memory.o
 
