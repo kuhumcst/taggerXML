@@ -114,6 +114,8 @@ optionStruct::optionStruct():
                 printf("    -r   About redistribution (GNU)\n");
                 printf("    -W   About warranty (GNU)\n");
                 printf("    -x<path> path to file with extra options (deprecated)\n");
+                printf("    -x- do not use xoptions file at all\n");
+                printf("        (Not specifyiing -x makes the tagger look for a file 'xoptions' in the CWD.)\n");
                 printf("    -f ConvertToLowerCaseIfFirstWord (default off)\n");
                 printf("    -a ConvertToLowerCaseIfMostWordsAreCapitalized (default off)\n");
                 printf("    -s ShowIfLowercaseConversionHelped (default off)\n");

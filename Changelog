@@ -1,3 +1,10 @@
+version 3.8 - 2017.02.13 
+Option -x- suppresses the use of the 'xoptions' file. (Use -x- together with
+-p and -n options.)
+
+version 3.7 - 2016.11.09 
+Enlarged scope of tag_hash.
+
 2016.05.17
 
 Start of changelog.
@@ -16,5 +23,3 @@ The program was not stable if #define STREAM 1 (in defines.h). This is solved.
 A lot of commented code and useless comments were removed. There is still a
 lot left.
 
-version 3.7 - 2016.11.09 
-Enlarged scope of tag_hash.

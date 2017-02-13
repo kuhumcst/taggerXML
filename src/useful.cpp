@@ -88,10 +88,14 @@ int num_words(char *thestr)
     return(returncount);
     }
 
-static char * getBaseDir()
+static char * getXoptionsFile()
     {
     if(xoptions)
+        {
+        if(strcmp(xoptions,"-")) // Bart 20170213 -x- turns off use of xoptions
+            return NULL;
         return xoptions; // Bart 20060321. New option -x <optionfile>
+        }
 
     // loff
     static char basedir[1028];
@@ -118,7 +122,7 @@ static char * getBaseDir()
 
 long option(const char * key) 
     {
-    FILE * fp = fopen(getBaseDir(),"r");
+    FILE * fp = fopen(getXoptionsFile(),"r");
     if(fp)
         {
         char line[256];
@@ -146,7 +150,7 @@ long option(const char * key)
 char * coption(const char * key) 
     {
     //loff FILE * fp = fopen("xoptions","r");
-    FILE * fp = fopen(getBaseDir(),"r");
+    FILE * fp = fopen(getXoptionsFile(),"r");
     if(fp)
         {
         static /*Bart 20030224*/ char line[256];

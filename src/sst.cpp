@@ -86,29 +86,36 @@ int start_state_tagger
         {
         Verbose = Options->Verbose ? 1 : 0;
         }
-    char * tmp;
-    tmp = coption("Noun");
-    if(tmp)
-        {
-        strncpy(noun,tmp,sizeof(noun) - 1);
-        noun[sizeof(noun)  - 1] = '\0';
-        }
-    else if(Options->Noun)
+
+    if(Options->Noun)
         {
         strncpy(noun,Options->Noun,sizeof(noun) - 1);
         }
-
-    tmp = coption("Proper");
-    if(tmp)
+    else
         {
-        strncpy(proper,tmp,sizeof(proper) - 1);
-        proper[sizeof(proper)  - 1] = '\0';
+        char * tmp;
+        tmp = coption("Noun");
+        if(tmp)
+            {
+            strncpy(noun,tmp,sizeof(noun) - 1);
+            noun[sizeof(noun)  - 1] = '\0';
+            }
         }
-    else if(Options->Proper)
+
+    if(Options->Proper)
         {
         strncpy(proper,Options->Proper,sizeof(noun) - 1);
         }
-    
+    else 
+        {
+        char * tmp;
+        tmp = coption("Proper");
+        if(tmp)
+            {
+            strncpy(proper,tmp,sizeof(proper) - 1);
+            proper[sizeof(proper)  - 1] = '\0';
+            }
+        }
     
     /***********************************************************************/
     
