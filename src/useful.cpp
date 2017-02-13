@@ -92,7 +92,7 @@ static char * getXoptionsFile()
     {
     if(xoptions)
         {
-        if(strcmp(xoptions,"-")) // Bart 20170213 -x- turns off use of xoptions
+        if(!strcmp(xoptions,"-")) // Bart 20170213 -x- turns off use of xoptions
             return NULL;
         return xoptions; // Bart 20060321. New option -x <optionfile>
         }
