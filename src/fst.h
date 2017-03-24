@@ -24,6 +24,11 @@ int final_state_tagger(  const char * Contextualrulefile
 #endif
                        , corpus * Corpus
                        , optionStruct * Options
+#if STREAM
+                       , ostream & fpout
+#else
+                       , FILE * fpout
+#endif
                        );
 
 #endif

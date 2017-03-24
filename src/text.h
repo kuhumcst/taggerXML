@@ -198,6 +198,13 @@ class corpus
             }
         corpus();
         ~corpus() { if (Token) delete[] Token; }
+        virtual void printUnsorted(
+#if STREAM
+            ostream & fpo
+#else
+            FILE * fpo            
+#endif
+            ) = 0;
     };
 
 

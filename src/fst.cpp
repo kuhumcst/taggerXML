@@ -73,6 +73,11 @@ int final_state_tagger( const char * Contextualrulefile
 #endif
                        , corpus * Corpus
                        , optionStruct * Options
+#if STREAM
+                       , ostream & fpout
+#else
+                       , FILE * fpout
+#endif
                        )
     {
     if(Corpus->numberOfTokens <= 0)
@@ -215,7 +220,6 @@ int final_state_tagger( const char * Contextualrulefile
                 next2 = line; line = shift(line);
                 word = line; line = shift(line);
                 }
-            
             for (count = 0; count < corpus_max_index; ++count) 
                 {
                 if (sametokpos(old, Corpus->Token+count)) 
@@ -590,6 +594,8 @@ int final_state_tagger( const char * Contextualrulefile
                             "ERROR: %s is not an allowable transform type\n",
                             when);
                             }
+                        if(Corpus->Token[count].Pos[0] & 0x80)
+                            printf("WHEN %s\n",when);
                         }
                     }
                 }
@@ -604,6 +610,8 @@ int final_state_tagger( const char * Contextualrulefile
         }
 
     fclose(changefile);
+    Corpus->printUnsorted(fpout);
+
     delete[] contextualRules;
     return 0;  /* Bart 20030415 */
     }

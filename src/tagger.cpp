@@ -584,9 +584,11 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
 #endif
                            ,Text
                            ,Options
+                           ,fpout
                            );
         }
-    Text->printUnsorted(fpout);
+    else
+        Text->printUnsorted(fpout);
     tag_hash->deleteThings();
     delete tag_hash;
     delete Text;

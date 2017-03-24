@@ -1,3 +1,6 @@
+version 3.9 - 2017.03.24
+Fixed bug in fst.cpp: write output before freeing contextualRules.
+
 version 3.8 - 2017.02.13 
 Option -x- suppresses the use of the 'xoptions' file. (Use -x- together with
 -p and -n options.)
