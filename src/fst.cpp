@@ -71,7 +71,7 @@ int final_state_tagger( const char * Contextualrulefile
 #endif
                        , Registry WORDS
 #endif
-                       , corpus * Corpus
+                       , text * Corpus
                        , optionStruct * Options
 #if STREAM
                        , ostream & fpout
