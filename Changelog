@@ -1,3 +1,7 @@
+version 3.10 / 2017.06.07
+Fixed: core dump when input started with empty line(s)
+Fixed: option -x- (no xoptions file for extra options)
+
 version 3.9 - 2017.03.24
 Fixed bug in fst.cpp: write output before freeing contextualRules.
 
