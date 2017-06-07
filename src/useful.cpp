@@ -122,27 +122,31 @@ static char * getXoptionsFile()
 
 long option(const char * key) 
     {
-    FILE * fp = fopen(getXoptionsFile(),"r");
-    if(fp)
+    char * XoptionsFile = getXoptionsFile();
+    if(XoptionsFile)
         {
-        char line[256];
-        while(fgets(line,255,fp))
+        FILE * fp = fopen(getXoptionsFile(),"r");
+        if(fp)
             {
-            if(!strncmp(key,line,strlen(key)))
+            char line[256];
+            while(fgets(line,255,fp))
                 {
-                char * eqpos = strchr(line,'=');
-                if(eqpos)
+                if(!strncmp(key,line,strlen(key)))
                     {
-                    fclose(fp);
-                    return strtol(eqpos+1,NULL,0);
-                    }
-                else
-                    {
-                    break;;
+                    char * eqpos = strchr(line,'=');
+                    if(eqpos)
+                        {
+                        fclose(fp);
+                        return strtol(eqpos+1,NULL,0);
+                        }
+                    else
+                        {
+                        break;;
+                        }
                     }
                 }
+            fclose(fp);
             }
-        fclose(fp);
         }
     return -1;
     }
