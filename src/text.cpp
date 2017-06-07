@@ -389,7 +389,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                     {
                     case '\n':
                     case '\r':
-                        Tok->lastOfLine = true;
+                        if(Tok) /* Tok is still NULL if the text starts with an empty line. */
+                            Tok->lastOfLine = true;
                         inaline = false;
                         /* drop through */
                     case ' ':
