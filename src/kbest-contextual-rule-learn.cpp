@@ -113,7 +113,7 @@ void increment_array_create(Registry *thehash,char  *thestr)
   }
 }
 /***********************************************************************/
-void check_counts(Registry *goodhash,Registry *badhash,char *label)
+void check_counts(Registry *goodhash,Registry *badhash,const char *label)
 {
   Darray tempkey,tempval,temp2key,temp2val;
   int *hashtempstr,hashtempval;

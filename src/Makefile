@@ -35,9 +35,9 @@ CC=g++ -O3 -Wall -pedantic -DNDEBUG
 PIC=-fPIC
 #PIC=
 
-CCLINKSTATIC=g++ -static
-CCLINKDYNAMIC=g++ 
-CCCREATELIB=g++ -shared -Wl,-soname,$(SONAME)
+CCLINKSTATIC=g++ -static -fPIC
+CCLINKDYNAMIC=g++ -fPIC
+CCCREATELIB=g++ -fPIC -shared -Wl,-soname,$(SONAME)
 RM=rm -f
 
 include config.mak
@@ -129,7 +129,7 @@ $(PNAMEDYNAMICLIB): $(REALNAME) $(CSTTAGGEROBJS)
 	$(CCLINKDYNAMIC) $(CSTTAGGEROBJS) $(REALNAME) -o $@
 
 $(L_TARGETS) : $(OBJ)
-	$(CC) $(OBJ) -o $(BINDIR)/$@ $(L_DIR)/$@.cpp
+	$(CC) $(PIC) $(OBJ) -o $(BINDIR)/$@ $(L_DIR)/$@.cpp
 
 all: $(PNAMESTATIC) $(PNAMEDYNAMIC) $(REALNAME) $(PNAMEDYNAMICLIB) ${L_TARGETS}
 
@@ -144,3 +144,4 @@ clean:
 	$(RM) $(REALNAME)
 	$(RM) $(SONAME)
 	$(RM) $(LINKERNAME)
+	$(RM) ../../letterfunc/src/*.o

@@ -130,7 +130,7 @@ int main(int             argc, char           *argv[])
 	for (ccount=0;ccount<strlen(line);++ccount) /*patch for sing quote*/
 	  if (*(line+ccount) == '\b') 
 	    *(line+ccount) = '\''; 
-	  if (strlen(line) > 1) {
+	if (strlen(line) > 1) {
 	    split_ptr = perl_split(line);
 	    strcpy(old, split_ptr[0]);
 	    neww= mystrdup(split_ptr[1]);
