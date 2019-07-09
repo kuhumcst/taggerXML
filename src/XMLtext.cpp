@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "XMLtext.h"
 #include "word.h"
 #include "parsesgml.h"
+#include "entities.h"
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -174,6 +175,58 @@ bool XMLtext::analyseThis()
         }
     }
 
+static const char * convert(const char * s, char * buf, const char * lastBufByte)
+    {
+    if (buf + strlen(s) < lastBufByte)
+        {
+        char* q = buf;
+        char entity[100];
+        char* p = NULL;
+        for (const char* t = s; *t; ++t)
+            {
+            if (*t == '&')
+                {
+                p = entity;
+                }
+            else if (p)
+                {
+                if (*t == ';')
+                    {
+                    *p = '\0';
+                    char* pItem = findEntity(entity);
+                    if (pItem != NULL)
+                        {
+                        p = pItem;
+                        }
+                    else
+                        {
+                        *q++ = '&';
+                        p = entity;
+                        }
+                    for (; *p; ++p && (q < lastBufByte), ++q)
+                        * q = *p;
+                    p = NULL;
+                    }
+                else if (q < lastBufByte)
+                    {
+                    *p++ = *t;
+                    }
+                else
+                    break;
+                }
+            else if (q < lastBufByte)
+                {
+                *q++ = *t;
+                }
+            else
+                break;
+            }
+        *q = '\0';
+        return buf;
+        }
+    return s;
+    }
+
 
 const char * XMLtext::convert(const char * s)
     {
@@ -192,6 +245,9 @@ const char * XMLtext::convert(const char * s)
             ret[index] = new char[len[index]];
             }
         char *p = ret[index];
+        const char* lastBufByte = ret[index] + strlen(ret[index] - 1);
+        ::convert(s, ret[index], lastBufByte);
+        /*
         while(*s)
             {
             if(*s == '&')
@@ -228,7 +284,7 @@ const char * XMLtext::convert(const char * s)
             else
                 *p++ = *s++;
             }
-        *p = '\0';
+        *p = '\0';*/
         return ret[index];
         }
     return s;

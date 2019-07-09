@@ -65,6 +65,7 @@ TAGGERSRC= \
 	$(SRCDIR)/text.cpp \
 	$(SRCDIR)/useful.cpp \
 	$(LETTERFUNCDIR)/utf8func.cpp \
+	$(LETTERFUNCDIR)/entities.cpp \
 	$(SRCDIR)/word.cpp \
 	$(SRCDIR)/XMLtext.cpp
 
@@ -91,6 +92,7 @@ TAGGEROBJS=\
 	text.o \
 	useful.o \
 	utf8func.o \
+    entities.o \
 	word.o \
 	XMLtext.o
 
@@ -101,6 +103,7 @@ OBJ = $(LIBDIR)/lex.o \
 	$(LETTERFUNCDIR)/letter.o \
 	$(LETTERFUNCDIR)/letterfunc.o \
 	$(LETTERFUNCDIR)/utf8func.o \
+	$(LETTERFUNCDIR)/entities.o \
 	$(LIBDIR)/mygets.o \
 	$(LIBDIR)/memory.o
 
