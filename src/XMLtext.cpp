@@ -244,7 +244,6 @@ const char * XMLtext::convert(const char * s)
             len[index] = strlen(s)+1;
             ret[index] = new char[len[index]];
             }
-        char *p = ret[index];
         const char* lastBufByte = ret[index] + strlen(ret[index] - 1);
         ::convert(s, ret[index], lastBufByte);
         /*
