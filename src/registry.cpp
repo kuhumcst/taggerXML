@@ -44,7 +44,7 @@ NORET Registry_size_hint(Registry dir, unsigned int size_hint_value)
 /* Finds a named object in a directory.  Returns NULL if the named 
  * object is not in the directory */
 
-VOIDP Registry_get(Registry dir, CONSTVOIDP key)
+VOIDP Registry_get(Registry dir, /*CONSTVOIDP*/const char* key)
     {
     if(lower(dir)->ht_size)
         {
@@ -73,7 +73,7 @@ VOIDP Registry_get(Registry dir, CONSTVOIDP key)
  /* entry should be removed using Registry_remove, then the key may be */
  /* freed */
 
-VOIDP Registry_get_original_key(Registry dir, CONSTVOIDP key)
+VOIDP Registry_get_original_key(Registry dir, /*CONSTVOIDP*/const char* key)
     {
     if(lower(dir)->ht_size)
         {
@@ -97,7 +97,7 @@ VOIDP Registry_get_original_key(Registry dir, CONSTVOIDP key)
  * An error will occur if Registry_get(dir, name) would succeed (return
  * non-NULL) */
 
-Bool Registry_add(Registry dir, VOIDP name, VOIDP obj)
+Bool Registry_add(Registry dir, /*VOIDP*/char* name, VOIDP obj)
     {
     RegistryRecord *p;
     RegistryRecord **table_entry;
@@ -130,7 +130,7 @@ Bool Registry_add(Registry dir, VOIDP name, VOIDP obj)
  * caller to do so if necessary.
  */
 
-Bool Registry_remove(Registry dir, CONSTVOIDP key)
+Bool Registry_remove(Registry dir, /*CONSTVOIDP*/const char* key)
     {
     RegistryRecord *p, **prev_p;
     Registry_rep *ldir = lower(dir);
@@ -157,7 +157,7 @@ Bool Registry_remove(Registry dir, CONSTVOIDP key)
  * old value is returned.  If no association already exists, one is added
  * and NULL is returned. */
 
-VOIDP Registry_replace_value(Registry dir, VOIDP key, VOIDP new_value)
+VOIDP Registry_replace_value(Registry dir, /*VOIDP*/char* key, /*VOIDP*/char* new_value)
     {
     RegistryRecord *p;
     Registry_CompareFunc comp_func = lower(dir)->comp_fun;
@@ -304,9 +304,10 @@ unsigned int Registry_strcasehash(CONSTVOIDP strp, unsigned int htsize)
         return 0;
     }
 
-int Registry_strcmp(CONSTVOIDP str1, CONSTVOIDP str2)
+int Registry_strcmp(/*CONSTVOIDP*/const char* str1, /*CONSTVOIDP*/const char* str2)
     {
-    return strcmp((char *)str1, (char *)str2);
+//    return strcmp((char *)str1, (char *)str2);
+    return strcmp(str1, str2);
     }
 
 /*// Bart 20001218

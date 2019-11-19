@@ -1,3 +1,8 @@
+version 3.12 / 2019.11.19
+Changed (CONST)VOIDP to (const) char* in some cases.
+Removed a test from an alternation that duplicated another test in the same
+alternation, but that also imposed an extra condition, having no effect.
+
 version 3.11 / 2019.07.09
 Added decoding of numeric character references and html character entity 
 references.

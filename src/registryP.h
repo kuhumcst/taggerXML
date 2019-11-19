@@ -9,7 +9,7 @@
 
 /* private internal representation of the table */
 typedef struct RegistryRecord_st {
-  VOIDP name;
+  /*VOIDP*/char* name;
   VOIDP obj;
   struct RegistryRecord_st *next;
 } RegistryRecord;

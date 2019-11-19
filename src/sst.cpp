@@ -153,10 +153,10 @@ int start_state_tagger
             while ((wrd = Corpus->getWord()) != NULL) 
                 { 
                 if(  Registry_get(lexicon_hash,wrd) == NULL
-                  && (  (  heading 
+                  && (/*  (  heading 
                         && (Registry_get(lexicon_hash,allToLowerUTF8(wrd)) == NULL)
                         )
-                     || !startOfLine
+                     ||*/ !startOfLine
                      || ConvertToLowerCaseIfFirstWord != 1
                      || Registry_get(lexicon_hash,allToLowerUTF8(wrd)) == NULL
                      )
