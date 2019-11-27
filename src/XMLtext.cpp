@@ -236,15 +236,16 @@ const char * XMLtext::convert(const char * s)
         static char * ret[2] = {NULL,NULL};
         static size_t len[2] = {0,0};
         static int index = 0;
+	size_t slen = strlen(s);
         index += 1;
         index %= 2;
-        if(len[index] <= strlen(s))
+        if(len[index] <= slen)
             {
             delete ret[index];
-            len[index] = strlen(s)+1;
+            len[index] = slen+1;
             ret[index] = new char[len[index]];
             }
-        const char* lastBufByte = ret[index] + strlen(ret[index] - 1);
+        const char* lastBufByte = ret[index] + slen + 1; //strlen(ret[index] - 1);
         ::convert(s, ret[index], lastBufByte);
         /*
         while(*s)
