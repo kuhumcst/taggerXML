@@ -236,7 +236,7 @@ const char * XMLtext::convert(const char * s)
         static char * ret[2] = {NULL,NULL};
         static size_t len[2] = {0,0};
         static int index = 0;
-	size_t slen = strlen(s);
+        size_t slen = strlen(s);
         index += 1;
         index %= 2;
         if(len[index] <= slen)
@@ -245,46 +245,8 @@ const char * XMLtext::convert(const char * s)
             len[index] = slen+1;
             ret[index] = new char[len[index]];
             }
-        const char* lastBufByte = ret[index] + slen + 1; //strlen(ret[index] - 1);
+        const char* lastBufByte = ret[index] + slen + 1;
         ::convert(s, ret[index], lastBufByte);
-        /*
-        while(*s)
-            {
-            if(*s == '&')
-                {
-                ++s;
-                if(!strncmp(s,"lt;",3))
-                    {
-                    *p++ = '<';
-                    s += 3;
-                    }
-                else if(!strncmp(s,"gt;",3))
-                    {
-                    *p++ = '>';
-                    s += 3;
-                    }
-                else if(!strncmp(s,"amp;",4))
-                    {
-                    *p++ = '&';
-                    s += 4;
-                    }
-                else if(!strncmp(s,"apos;",5)) // Notice: XML standard, but not HTML
-                    {
-                    *p++ = '\'';
-                    s += 5;
-                    }
-                else if(!strncmp(s,"quot;",5))
-                    {
-                    *p++ = '"';
-                    s += 5;
-                    }
-                else
-                    *p++ = '&';
-                }
-            else
-                *p++ = *s++;
-            }
-        *p = '\0';*/
         return ret[index];
         }
     return s;
