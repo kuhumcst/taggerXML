@@ -158,7 +158,9 @@ bool createRegistries
 
     lexicon_hash = *LEXICON_HASH = Registry_create(Registry_strcmp,Registry_strhash);
     Registry_size_hint(lexicon_hash,tagnums);
-
+   // printf(".");
+    //putc('.',stdout);
+    //getchar();
     lexicon = fopen(Lexicon, "r");
     if(!lexicon)
         {
@@ -244,9 +246,13 @@ bool createRegistries
             if(space)
                 {
                 *space = '\0';
+		//printf(".");
                 word2 = mystrdup(line);
                 *space = ' ';
                 tag2 = mystrdup(space+1);
+//                if (!strcmp(word2, "wy"))
+  //                  printf(".");
+
                 if(!Registry_add(lexicon_hash,word2,tag2))
                     {
                     free(word2);
@@ -275,6 +281,8 @@ bool createRegistries
 #endif
             }
         }
+    if(0)
+        printf(".");
     /* read in rule file */
     rule_array = *RULE_ARRAY = Darray_create();
     good_right_hash = Registry_create(Registry_strcmp,Registry_strhash);

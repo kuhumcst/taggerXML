@@ -29,10 +29,6 @@ PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 #include <ctype.h>
 #include <locale.h>
 
-
-
-
-
 int CheckLineForCapitalizedWordsOrNonAlphabeticStuff(corpus * Corpus)
     {
     int tot = 0;
@@ -153,11 +149,11 @@ int start_state_tagger
             while ((wrd = Corpus->getWord()) != NULL) 
                 { 
                 if(  Registry_get(lexicon_hash,wrd) == NULL
-                  && (/*  (  heading 
-                        && (Registry_get(lexicon_hash,allToLowerUTF8(wrd)) == NULL)
+                  && (  (  !heading 
+		        && (  ConvertToLowerCaseIfFirstWord != 1
+	                   || !startOfLine
+                           )
                         )
-                     ||*/ !startOfLine
-                     || ConvertToLowerCaseIfFirstWord != 1
                      || Registry_get(lexicon_hash,allToLowerUTF8(wrd)) == NULL
                      )
                   ) 
@@ -643,7 +639,6 @@ int start_state_tagger
     
     /* now go from array to hash table */
     
-//    tag_hash = new hashmap::hash<strng>(&strng::key,1000);
     for (count= 0;count < length;++count) 
         {
         const char * name = tag_array[count]->key();
@@ -655,9 +650,9 @@ int start_state_tagger
             }
         }
 
-    for (size_t i = 0; i < length; i++) delete tag_array[i];
+    for (size_t i = 0; i < length; i++) {delete tag_array[i];tag_array[i] = 0;}
     delete [] tag_array;
-
+    tag_array = 0;
     while(Corpus->getline()) 
         {
         int startOfLine = Bool_TRUE;
@@ -668,12 +663,13 @@ int start_state_tagger
             }
 
         token * Tok;
+
         const char * wrd;
         for(int i = Corpus->startOfLine;i <= Corpus->endOfLine;++i)
             {
             Tok = Corpus->Token+i;
             wrd = Tok->getWord();
-            if(Tok->PreTag)
+	    if(Tok->PreTag)
                 {
                 Tok->Pos = Tok->PreTag; // assume tag from input
                 }
@@ -692,8 +688,10 @@ int start_state_tagger
             else 
                 {
                 void * bucket;
+		assert(tag_hash != 0);
                 strng * found = tag_hash->find(wrd,bucket);
                 assert(found);
+		found->val();
                 Tok->Pos = found->val(); // assume tag from morphological analysis
                 }
             startOfLine = Bool_FALSE;

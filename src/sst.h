@@ -30,7 +30,9 @@ class strng
         ~strng()
             {
             delete [] Key;
+	    Key = 0;
             delete [] Val;
+	    Val = 0;
             }
         const char * key() const
             {
@@ -48,7 +50,10 @@ class strng
                 strcpy(Val,val);
                 }
             else
+		{
                 delete [] Val;
+		Val = 0;
+		}
             }
     };
 

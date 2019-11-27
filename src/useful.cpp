@@ -42,9 +42,16 @@ char * dupl(const char * s)
 
 char *mystrdup(const char *thestr) 
     {
-    INCREMENT
-    return strcpy((char *)malloc(strlen(thestr)+1),thestr);
+    char* space = (char*)malloc(strlen(thestr) + 1);
+    if (space)
+        {
+        INCREMENT
+        return strcpy(space, thestr);
+        }
+    else
+        return 0;
     }
+
 
 int not_just_blank(char *thestr)
 /* make sure not just processing a no-character line */
