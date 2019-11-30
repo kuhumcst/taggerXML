@@ -1,3 +1,8 @@
+version 3.20 / 2019.11.30
+Fixed bug in XMLtext.cpp that caused words containing character references not
+to be decoded properly. Fixed bug in sst.cpp that caused a segmebtation error
+with some inputs.
+
 version 3.12 / 2019.11.19
 Changed (CONST)VOIDP to (const) char* in some cases.
 Removed a test from an alternation that duplicated another test in the same
