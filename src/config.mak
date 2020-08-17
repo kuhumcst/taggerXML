@@ -1,2 +1,2 @@
 #BIN=/usr/local/bin/
-BIN=./
+BIN=../
