@@ -60,7 +60,7 @@ int not_just_blank(char *thestr)
     thestr2 = thestr;
     while(*thestr2 != '\0') 
         {
-        if (*thestr2 != ' ' && *thestr2 != '\t' && *thestr2 != '\n')
+        if (*thestr2 != ' ' && *thestr2 != '\t' && *thestr2 != '\n' && *thestr2 != '\r')
             {
             return(1); 
             }

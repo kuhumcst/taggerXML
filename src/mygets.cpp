@@ -31,7 +31,7 @@ char * mygets() /* Bart 20030415 */
         }
     readbuf = theLine;
     readbuflen = theLinelen;
-    while((ret = fgets(readbuf,readbuflen,stdin)) != NULL && (L = strlen(readbuf)) == readbuflen - 1) 
+    while((ret = fgets(readbuf,(int)readbuflen,stdin)) != NULL && (L = strlen(readbuf)) == readbuflen - 1) 
         {
         char * newline;
         newline = (char *)malloc(theLinelen + BUFINC);
@@ -47,7 +47,7 @@ char * mygets() /* Bart 20030415 */
         }
     if(ret || hasread)
         {
-        int L = strlen(theLine) - 1;
+        size_t L = strlen(theLine) - 1;
         if(theLine[L] == '\n')
             theLine[L] = '\0';
         return theLine;
