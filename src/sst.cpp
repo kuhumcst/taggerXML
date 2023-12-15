@@ -270,18 +270,18 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[rulesize - 1]) != 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
+                    const char* Tempstr = tag_array[count2]->key();
                     for (count3 = 0; (int)count3 < atoi(therule[2]); ++count3)
                         {
-                        if (tempstr[count3] != therule[0][count3])
+                        if (Tempstr[count3] != therule[0][count3])
                             break;
                         }
                     if ((int)count3 == atoi(therule[2]))
                         {
-                        tempstr += atoi(therule[2]);
-                        if (Registry_get(lexicon_hash, (char*)tempstr) != NULL
+                        Tempstr += atoi(therule[2]);
+                        if (Registry_get(lexicon_hash, (char*)Tempstr) != NULL
                             || (EXTRAWDS
-                                && Registry_get(wordlist_hash, (char*)tempstr) != NULL
+                                && Registry_get(wordlist_hash, (char*)Tempstr) != NULL
                                 )
                             )
                             {
@@ -297,20 +297,20 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[0]) == 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
+                    const char* Tempstr = tag_array[count2]->key();
                     for (count3 = 0; (int)count3 < atoi(therule2[2]); ++count3)
                         {
-                        if (tempstr[count3] != therule2[0][count3])
+                        if (Tempstr[count3] != therule2[0][count3])
                             {
                             break;
                             }
                         }
                     if ((int)count3 == atoi(therule2[2]))
                         {
-                        tempstr += atoi(therule2[2]);
-                        if (Registry_get(lexicon_hash, (char*)tempstr) != NULL
+                        Tempstr += atoi(therule2[2]);
+                        if (Registry_get(lexicon_hash, (char*)Tempstr) != NULL
                             || (EXTRAWDS
-                                && Registry_get(wordlist_hash, (char*)tempstr) != NULL
+                                && Registry_get(wordlist_hash, (char*)Tempstr) != NULL
                                 )
                             )
                             {
@@ -326,10 +326,10 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[rulesize - 1]) != 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
+                    const char* Tempstr = tag_array[count2]->key();
                     for (count3 = 0; (int)count3 < atoi(therule[2]); ++count3)
                         {
-                        if (tempstr[count3] != therule[0][count3])
+                        if (Tempstr[count3] != therule[0][count3])
                             {
                             break;
                             }
@@ -347,10 +347,10 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[0]) == 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
+                    const char* Tempstr = tag_array[count2]->key();
                     for (count3 = 0; (int)count3 < atoi(therule2[2]); ++count3)
                         {
-                        if (tempstr[count3] != therule2[0][count3])
+                        if (Tempstr[count3] != therule2[0][count3])
                             {
                             break;
                             }
@@ -368,18 +368,18 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[rulesize - 1]) != 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
-                    tempcount = strlen(tempstr) - atoi(therule[2]);
-                    for (count3 = tempcount; count3 < strlen(tempstr); ++count3)
+                    const char* Tempstr = tag_array[count2]->key();
+                    tempcount = strlen(Tempstr) - atoi(therule[2]);
+                    for (count3 = tempcount; count3 < strlen(Tempstr); ++count3)
                         {
-                        if (tempstr[count3] != therule[0][count3 - tempcount])
+                        if (Tempstr[count3] != therule[0][count3 - tempcount])
                             {
                             break;
                             }
                         }
-                    if (count3 == strlen(tempstr))
+                    if (count3 == strlen(Tempstr))
                         {
-                        tempstr2 = mystrdup(tempstr);
+                        tempstr2 = mystrdup(Tempstr);
                         tempstr2[tempcount] = '\0';
                         if (Registry_get(lexicon_hash, (char*)tempstr2) != NULL
                             || (EXTRAWDS
@@ -401,18 +401,18 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[0]) == 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
-                    tempcount = strlen(tempstr) - atoi(therule2[2]);
-                    for (count3 = tempcount; count3 < strlen(tempstr); ++count3)
+                    const char* Tempstr = tag_array[count2]->key();
+                    tempcount = strlen(Tempstr) - atoi(therule2[2]);
+                    for (count3 = tempcount; count3 < strlen(Tempstr); ++count3)
                         {
-                        if (tempstr[count3] != therule2[0][count3 - tempcount])
+                        if (Tempstr[count3] != therule2[0][count3 - tempcount])
                             {
                             break;
                             }
                         }
-                    if (count3 == strlen(tempstr))
+                    if (count3 == strlen(Tempstr))
                         {
-                        tempstr2 = mystrdup(tempstr);
+                        tempstr2 = mystrdup(Tempstr);
                         tempstr2[tempcount] = '\0';
                         if  (  Registry_get(lexicon_hash, (char*)tempstr2) != NULL
                             || (EXTRAWDS
@@ -434,16 +434,16 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[rulesize - 1]) != 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
-                    tempcount = strlen(tempstr) - atoi(therule[2]);
-                    for (count3 = tempcount; count3 < strlen(tempstr); ++count3)
+                    const char* Tempstr = tag_array[count2]->key();
+                    tempcount = strlen(Tempstr) - atoi(therule[2]);
+                    for (count3 = tempcount; count3 < strlen(Tempstr); ++count3)
                         {
-                        if (tempstr[count3] != therule[0][count3 - tempcount])
+                        if (Tempstr[count3] != therule[0][count3 - tempcount])
                             {
                             break;
                             }
                         }
-                    if (count3 == strlen(tempstr))
+                    if (count3 == strlen(Tempstr))
                         {
                         tag_array[count2]->setVal(therule[rulesize - 1]);
                         }
@@ -456,16 +456,16 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 {
                 if (strcmp(tag_array[count2]->val(), therule[0]) == 0)
                     {
-                    const char* tempstr = tag_array[count2]->key();
-                    tempcount = strlen(tempstr) - atoi(therule2[2]);
-                    for (count3 = tempcount; count3 < strlen(tempstr); ++count3)
+                    const char* TempStr = tag_array[count2]->key();
+                    tempcount = strlen(TempStr) - atoi(therule2[2]);
+                    for (count3 = tempcount; count3 < strlen(TempStr); ++count3)
                         {
-                        if (tempstr[count3] != therule2[0][count3 - tempcount])
+                        if (TempStr[count3] != therule2[0][count3 - tempcount])
                             {
                             break;
                             }
                         }
-                    if (count3 == strlen(tempstr))
+                    if (count3 == strlen(TempStr))
                         {
                         tag_array[count2]->setVal(therule[rulesize - 1]);
                         }

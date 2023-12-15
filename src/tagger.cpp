@@ -79,21 +79,21 @@ bool createRegistries
         Registry * WORDS,
 #endif
 #endif
-        Registry * LEXICON_HASH,
-        Registry * BIGRAM_HASH,
-        Registry * WORDLIST_HASH,
-        const char * Lexicon,
-        const char * Lexicalrulefile,
-        const char * Bigrams,
-        const char * Wordlist,
+        Registry * parmLEXICON_HASH,
+        Registry * parmBIGRAM_HASH,
+        Registry * parmWORDLIST_HASH,
+        const char * parmLexicon,
+        const char * parmLexicalrulefile,
+        const char * parmBigrams,
+        const char * parmWordlist,
 #if !RESTRICT_MOVE
         int START_ONLY_FLAG,
 #endif
-        Darray * RULE_ARRAY
+        Darray * parmRULE_ARRAY
         )
     {
-    int linenums = 0;
-    int tagnums = 0;
+    int loclinenums = 0;
+    int loctagnums = 0;
     FILE * lexicon;
     FILE * rulefile;
     FILE * bigrams;
@@ -126,19 +126,19 @@ bool createRegistries
     if (! START_ONLY_FLAG) 
 #endif
         {
-        lexicon = fopen(Lexicon,"r");
+        lexicon = fopen(parmLexicon,"r");
         if(!lexicon)
             {
-            fprintf(stderr,"Cannot open lexicon \"%s\" for reading\n",Lexicon);
+            fprintf(stderr,"Cannot open lexicon \"%s\" for reading\n",parmLexicon);
             exit(1);
             }
         while(fgets(line,sizeof(line),lexicon) != NULL) 
             {
             if (not_just_blank(line)) 
                 {
-                ++linenums;
+                ++loclinenums;
                 line[strlen(line) - 1] = '\0';
-                tagnums += num_words(line);
+                loctagnums += num_words(line);
                 }
             }
         fclose(lexicon);
@@ -156,15 +156,15 @@ bool createRegistries
 #endif
 #endif
 
-    lexicon_hash = *LEXICON_HASH = Registry_create(Registry_strcmp,Registry_strhash);
-    Registry_size_hint(lexicon_hash,tagnums);
+    lexicon_hash = *parmLEXICON_HASH = Registry_create(Registry_strcmp,Registry_strhash);
+    Registry_size_hint(lexicon_hash,loctagnums);
    // printf(".");
     //putc('.',stdout);
     //getchar();
-    lexicon = fopen(Lexicon, "r");
+    lexicon = fopen(parmLexicon, "r");
     if(!lexicon)
         {
-        fprintf(stderr,"Cannot open lexicon \"%s\" for reading\n",Lexicon);
+        fprintf(stderr,"Cannot open lexicon \"%s\" for reading\n",parmLexicon);
         exit(1);
         }
     while(fgets(line,sizeof(line),lexicon) != NULL)
@@ -284,14 +284,14 @@ bool createRegistries
     if(0)
         printf(".");
     /* read in rule file */
-    rule_array = *RULE_ARRAY = Darray_create();
+    rule_array = *parmRULE_ARRAY = Darray_create();
     good_right_hash = Registry_create(Registry_strcmp,Registry_strhash);
     good_left_hash = Registry_create(Registry_strcmp,Registry_strhash);
     
-    rulefile = fopen(Lexicalrulefile,"r");
+    rulefile = fopen(parmLexicalrulefile,"r");
     if(!rulefile)
         {
-        fprintf(stderr,"Cannot open lexical rule file \"%s\" for reading\n",Lexicalrulefile);
+        fprintf(stderr,"Cannot open lexical rule file \"%s\" for reading\n",parmLexicalrulefile);
         exit(1);
         }
     while(fgets(line,sizeof(line),rulefile) != NULL) 
@@ -343,12 +343,12 @@ bool createRegistries
     fclose(rulefile);
 
     /* read in bigram file */
-    bigram_hash = *BIGRAM_HASH = Registry_create(Registry_strcmp,Registry_strhash);
+    bigram_hash = *parmBIGRAM_HASH = Registry_create(Registry_strcmp,Registry_strhash);
     
-    bigrams = fopen(Bigrams,"r");
+    bigrams = fopen(parmBigrams,"r");
     if(!bigrams)
         {
-        fprintf(stderr,"Cannot open bigram file \"%s\" for reading\n",Bigrams);
+        fprintf(stderr,"Cannot open bigram file \"%s\" for reading\n",parmBigrams);
         exit(1);
         }
     while(fgets(line,sizeof(line),bigrams) != NULL) 
@@ -386,13 +386,13 @@ bool createRegistries
     freeRegistry(good_right_hash);
     freeRegistry(good_left_hash);
 
-    if (Wordlist) 
+    if (parmWordlist) 
         {
         int numwordentries = 0;
-        wordlist = fopen(Wordlist,"r");
+        wordlist = fopen(parmWordlist,"r");
         if(!wordlist)
             {
-            fprintf(stderr,"Cannot open word lits \"%s\" for reading\n",Wordlist);
+            fprintf(stderr,"Cannot open word lits \"%s\" for reading\n",parmWordlist);
             exit(1);
             }
         while(fgets(line,sizeof(line),wordlist) != NULL) 
@@ -401,12 +401,12 @@ bool createRegistries
                 ++numwordentries;
             }
         fclose(wordlist);
-        wordlist_hash = *WORDLIST_HASH = Registry_create(Registry_strcmp,Registry_strhash);
+        wordlist_hash = *parmWORDLIST_HASH = Registry_create(Registry_strcmp,Registry_strhash);
         Registry_size_hint(wordlist_hash,numwordentries);
-        wordlist = fopen(Wordlist,"r");
+        wordlist = fopen(parmWordlist,"r");
         if(!wordlist)
             {
-            fprintf(stderr,"Cannot open word lits \"%s\" for reading\n",Wordlist);
+            fprintf(stderr,"Cannot open word lits \"%s\" for reading\n",parmWordlist);
             exit(1);
             }
         /* read in list of words */
@@ -438,9 +438,9 @@ static void deleteRegistries(
         Registry WORDS,
 #endif
 #endif
-        Registry LEXICON_HASH,
-        Registry BIGRAM_HASH,
-        Registry WORDLIST_HASH
+        Registry parmLEXICON_HASH,
+        Registry parmBIGRAM_HASH,
+        Registry parmWORDLIST_HASH
                              )
     {
 #if RESTRICT_MOVE
@@ -451,9 +451,9 @@ static void deleteRegistries(
     freeRegistry(WORDS);
 #endif
 #endif
-    freeRegistry(LEXICON_HASH);
-    freeRegistry(BIGRAM_HASH);
-    freeRegistry(WORDLIST_HASH);
+    freeRegistry(parmLEXICON_HASH);
+    freeRegistry(parmBIGRAM_HASH);
+    freeRegistry(parmWORDLIST_HASH);
     }
 
 tagger::tagger()

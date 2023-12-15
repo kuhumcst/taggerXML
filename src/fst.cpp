@@ -81,7 +81,10 @@ int final_state_tagger( const char * Contextualrulefile
                        )
     {
     if(Corpus->numberOfTokens <= 0)
-        return 1; 
+        {
+        Corpus->printUnsorted(fpout);
+        return 1;
+        }
         
     FILE           *changefile;
     

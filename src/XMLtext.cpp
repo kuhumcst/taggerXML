@@ -491,17 +491,17 @@ class wordReader
 #ifndef CONSTSTRCHR
         const 
 #endif
-        char * readChar(int kar)
+        char * readChar(int Kar)
             {
             if(!nextfield)
                 {
                 initWord();
                 }
-            if(kar == '\n')
+            if(Kar == '\n')
                 ++newlines;
-            kars[0] = kar == EOF ? '\0' : (char)kar;
+            kars[0] = Kar == EOF ? '\0' : (char)Kar;
             char * plastkar = nextfield->read(kars,nextfield);
-            if(kar == '\0')
+            if(Kar == '\0')
                 lastkar = '\0';
             else if(plastkar)
                 lastkar = *plastkar;
@@ -517,12 +517,12 @@ class wordReader
 #ifndef CONSTSTRCHR
         const 
 #endif
-        char * count(int kar)
+        char * count(int Kar)
             {
 #ifndef CONSTSTRCHR
             const 
 #endif
-            char * w = readChar(kar);
+            char * w = readChar(Kar);
             if(Text->analyseThis())
                 {
                 if(w && *w)
@@ -535,12 +535,12 @@ class wordReader
 #ifndef CONSTSTRCHR
         const 
 #endif
-        char * read(int kar)
+        char * read(int Kar)
             {
 #ifndef CONSTSTRCHR
             const 
 #endif
-            char * w = readChar(kar);
+            char * w = readChar(Kar);
             if(Text->analyseThis())
                 {
                 if(w && *w)
