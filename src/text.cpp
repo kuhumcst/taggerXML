@@ -261,6 +261,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                     case '\r':
                     case ' ':
                     case '\t':
+                    case '\v':
+                    case '\f':
                         intoken = false;
                         break;
                     default:
@@ -275,6 +277,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                     case '\r':
                     case ' ':
                     case '\t':
+                    case '\v':
+                    case '\f':
                         break;
                     default:
                         intoken = true;
@@ -305,6 +309,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                         /* drop through */
                     case ' ':
                     case '\t':
+                    case '\v':
+                    case '\f':
                         {
                         endpos = p;
 #if ESCAPESLASH
@@ -395,6 +401,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                         /* drop through */
                     case ' ':
                     case '\t':
+                    case '\v':
+                    case '\f':
                         break;
                     default:
                         intoken = true;
@@ -468,7 +476,7 @@ void text::printUnsorted(
                 fputc('/',fpo);
 #endif
 
-                while(*p && *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
+                while(*p && *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r' && *p != '\v' && *p != '\f')
 #if STREAM
                     fpo << *p++;
 #else

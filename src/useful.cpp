@@ -56,19 +56,22 @@ char *mystrdup(const char *thestr)
 int not_just_blank(char *thestr)
 /* make sure not just processing a no-character line */
     { 
+    return thestr[strspn(thestr, " \t\n\r\v\f")] != 0;
+    /*
     char *thestr2;
     thestr2 = thestr;
     while(*thestr2 != '\0') 
         {
-        if (*thestr2 != ' ' && *thestr2 != '\t' && *thestr2 != '\n' && *thestr2 != '\r')
+        if (*thestr2 != ' ' && *thestr2 != '\t' && *thestr2 != '\n' && *thestr2 != '\v')
             {
             return(1); 
             }
         ++thestr2;
         }
     return(0);
+    */
     }
-
+/*
 int num_words(char *thestr)
     {
     int count,returncount;
@@ -78,21 +81,47 @@ int num_words(char *thestr)
     while (  thestr[count] != '\0' 
           && (  thestr[count] == ' ' 
              || thestr[count] == '\t'
-             )
+              || thestr[count] == '\v'
+              )
           ) 
         ++count;
     while (thestr[count++] != '\0') 
         {
-        if (thestr[count-1] == ' ' || thestr[count-1] == '\t') 
+        if (thestr[count-1] == ' ' || thestr[count-1] == '\t' || thestr[count - 1] == '\v')
             {
             ++returncount;
-            while (thestr[count] == ' ' || thestr[count] == '\t')
+            while (thestr[count] == ' ' || thestr[count] == '\t' || thestr[count] == '\v')
                 ++count;
             if (thestr[count] == '\0') 
                 --returncount;
             }
         }
     return(returncount);
+    }
+*/
+
+int num_words(char* buf) /* Almost identical to num_spaces in lex.cpp */
+    {
+    int tot = 0;
+    size_t count;
+    /*
+    Goal: return number of tokens
+
+     skip all delimiters that might start buf
+        count non-delimiters until first delimiter. If not zero, increment token count.
+        relocate to first delimiter and skip delimer(s)
+        loop
+     return token count - 1
+    */
+    for(buf += strspn(buf, " \t\v\f");
+        (count = strcspn(buf, " \t\v\f")) != 0;
+        buf += strspn(buf, " \t\v\f")
+        )
+        {
+        ++tot;
+        buf += count;        
+        }
+    return tot;
     }
 
 static char * getXoptionsFile()

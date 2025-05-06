@@ -1,3 +1,7 @@
+version 3.30 / 2025.05.06
+Added \v and \f on same foot as \t.
+Improved some code by using strspn and strcspn instead of loops.
+
 version 3.20 / 2019.11.30
 Fixed bug in XMLtext.cpp that caused words containing character references not
 to be decoded properly. Fixed bug in sst.cpp that caused a segmebtation error

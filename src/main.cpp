@@ -3,8 +3,8 @@ Version 1: Brill's tagger
 Version 2: CST's adaptation (standard C, removal of language dependent code, introduction of xoptions, handling of capitals in headlines
 Version 3: handling of XML (Previously called version 1, because Brill had not defined a version.)
 */
-#define CSTTAGGERVERSION "3.21"
-#define CSTTAGGERDATE "2023.12.15"
+#define CSTTAGGERVERSION "3.3"
+#define CSTTAGGERDATE "2025.05.06"
 #define CSTTAGGERCOPYRIGHT "MIT, University of Pennsylvania and Center for Sprogteknologi"
 
 #include "useful.h" // dupl

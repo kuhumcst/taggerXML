@@ -48,7 +48,7 @@ char * mygets() /* Bart 20030415 */
     if(ret || hasread)
         {
         size_t L = strlen(theLine) - 1;
-        if(theLine[L] == '\n')
+        if(theLine[L] == '\n' || theLine[L] == '\r')
             theLine[L] = '\0';
         return theLine;
         }

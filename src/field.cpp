@@ -139,7 +139,7 @@ char * readAllButWhiteSpace::read(char * kar,field *& nextfield)
 
 char * readTab::read(char * kar,field *& nextfield)
     {
-    if(*kar == '\t')
+    if(*kar == '\t'|| *kar == '\v' || *kar == '\f')
         {
         nextfield = next;
         return NULL;

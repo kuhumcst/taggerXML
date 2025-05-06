@@ -278,7 +278,7 @@ optionStruct::optionStruct():
             while(fgets(line,sizeof(line) - 1,fpopt))
                 {
                 lineno++;
-                int off = strspn(line," \t");
+                int off = strspn(line," \t\v\f");
                 if(line[off] == ';')
                     continue; // comment line
                 if(line[off] == '-')
@@ -287,7 +287,7 @@ optionStruct::optionStruct():
                     if(line[off])
                         {
                         char * locoptarg2 = line + off + 1;
-                        int off2 = strspn(locoptarg2," \t");
+                        int off2 = strspn(locoptarg2," \t\v\f");
                         if(!locoptarg2[off2])
                             locoptarg2 = NULL;
                         else
@@ -384,7 +384,7 @@ optionStruct::optionStruct():
             while(fgets(line,sizeof(line) - 1,fpopt))
                 {
                 poptions[lineno] = options+bufsize;
-                int off = strspn(line," \t");
+                int off = strspn(line," \t\v\f");
                 if(line[off] == ';')
                     continue; // comment line
                 if(line[off] == '-')
@@ -393,7 +393,7 @@ optionStruct::optionStruct():
                     if(line[off])
                         {
                         char * locoptarg2 = line + off + 1;
-                        int off2 = strspn(locoptarg2," \t");
+                        int off2 = strspn(locoptarg2," \t\v\f");
                         if(!locoptarg2[off2])
                             locoptarg2 = NULL;
                         else
