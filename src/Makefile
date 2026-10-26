@@ -24,7 +24,6 @@ LETTERFUNCDIR    = ../../letterfunc/src
 SGMLDIR    = ../../parsesgml/src
 L_DIR      = .
 LIBDIR     = .
-BINDIR     = ../Bin_and_Data
 
 GCCINC += -I$(SRCDIR) -I$(HASHDIR) -I$(LETTERFUNCDIR) -I$(SGMLDIR)
 
@@ -112,15 +111,19 @@ L_TARGETS = contextual-rule-learn \
             kbest-contextual-rule-learn \
             fix-kbest-rule-learn
 
+L_BINS = $(addprefix $(BIN),$(L_TARGETS))
+
 #
 #   Dependencies start here.    #
 #			       #
 
 
 $(PNAMEDYNAMIC): $(CSTTAGGEROBJS) $(TAGGEROBJS)
+	mkdir -p $(dir $@)
 	$(CCLINKDYNAMIC) $(CSTTAGGEROBJS) $(TAGGEROBJS) -o $@
 
 $(PNAMESTATIC): $(CSTTAGGEROBJS) $(TAGGEROBJS)
+	mkdir -p $(dir $@)
 	$(CCLINKSTATIC) $(CSTTAGGEROBJS) $(TAGGEROBJS) -o $@
 
 $(REALNAME) : $(TAGGEROBJS)
@@ -129,12 +132,14 @@ $(REALNAME) : $(TAGGEROBJS)
 	ln -sf $(SONAME) $(LINKERNAME)
 
 $(PNAMEDYNAMICLIB): $(REALNAME) $(CSTTAGGEROBJS)
+	mkdir -p $(dir $@)
 	$(CCLINKDYNAMIC) $(CSTTAGGEROBJS) $(REALNAME) -o $@
 
-$(L_TARGETS) : $(OBJ)
-	$(CC) $(PIC) $(OBJ) -o $(BINDIR)/$@ $(L_DIR)/$@.cpp
+$(L_BINS) : $(BIN)% : $(L_DIR)/%.cpp $(OBJ)
+	mkdir -p $(dir $@)
+	$(CC) $(PIC) $(OBJ) -o $@ $<
 
-all: $(PNAMESTATIC) $(PNAMEDYNAMIC) $(REALNAME) $(PNAMEDYNAMICLIB) ${L_TARGETS}
+all: $(PNAMESTATIC) $(PNAMEDYNAMIC) $(REALNAME) $(PNAMEDYNAMICLIB) $(L_BINS)
 
 $(TAGGEROBJS): %.o: $(TAGGERSRC)
 	$(CC) $(PIC) $(GCCINC) -c $?
