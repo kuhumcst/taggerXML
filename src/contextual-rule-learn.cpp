@@ -1,7 +1,7 @@
 /*  Copyright @ 1993 MIT and University of Pennsylvania*/
 /* Written by Eric Brill */
 
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 
 #include <stdio.h>
@@ -115,7 +115,7 @@ void decrement_array_create(Registry *thehash, char  *thestr)
         }
     }
 /***********************************************************************/
-void check_counts(Registry *goodhash, char *label)
+void check_counts(Registry *goodhash, const char *label)
     {
     Darray tempkey, tempval;
     int tempbest;
@@ -178,7 +178,7 @@ int main(int             argc,
 
     FILE *correct_file, *guess_file, *error_list, *correct_out;
     char line[5000];  /* input line buffer */
-    char **split_ptr, **split_ptr2;
+    char **split_ptr = 0, **split_ptr2;
 
     char tempfile1[512], tempfile2[512];
 
@@ -235,7 +235,7 @@ int main(int             argc,
     allowedmovefile = fopen(argv[4], "r");
     if (allowedmovefile == NULL)
         {
-        fprintf(stderr, "%s %s\n", "Cannot open allowedmovefile argv[4] for reading", allowedmovefile);
+        fprintf(stderr, "%s %s\n", "Cannot open allowedmovefile argv[4] for reading", argv[4]);
         exit(-1);
         }
     while (fgets(line, sizeof(line), allowedmovefile) != NULL) {
@@ -263,7 +263,7 @@ int main(int             argc,
                            /* lexicon */
     if (allowedmovefile == NULL)
         {
-        fprintf(stderr, "%s %s\n", "Cannot open allowedmovefile argv[4] for reading", allowedmovefile);
+        fprintf(stderr, "%s %s\n", "Cannot open allowedmovefile argv[4] for reading", argv[4]);
         exit(-1);
         }
     while (fgets(line, sizeof(line), allowedmovefile) != NULL) {
@@ -295,7 +295,7 @@ int main(int             argc,
     correct_file = fopen(argv[1], "r");
     if (correct_file == NULL)
         {
-        fprintf(stderr, "%s %s\n", "Cannot open correct_file argv[1] for reading.", correct_file);
+        fprintf(stderr, "%s %s\n", "Cannot open correct_file argv[1] for reading.", argv[1]);
         exit(-1);
         }
     while (fgets(line, sizeof(line), correct_file) != NULL) {
@@ -319,7 +319,7 @@ int main(int             argc,
     correct_file = fopen(argv[1], "r");
     if (correct_file == NULL)
         {
-        fprintf(stderr, "%s %s\n", "Cannot open correct_file argv[1] for reading.", correct_file);
+        fprintf(stderr, "%s %s\n", "Cannot open correct_file argv[1] for reading.", argv[1]);
         exit(-1);
         }
     correct_tag_corpus_index = 0;
@@ -357,7 +357,7 @@ int main(int             argc,
     guess_file = fopen(argv[2], "r");
     if (guess_file == NULL)
         {
-        fprintf(stderr, "%s %s\n", "Cannot open guess_file argv[2] for reading.", guess_file);
+        fprintf(stderr, "%s %s\n", "Cannot open guess_file argv[2] for reading.", argv[2]);
         exit(-1);
         }
     while (fgets(line, sizeof(line), guess_file) != NULL) {
@@ -386,7 +386,7 @@ int main(int             argc,
         guess_file = fopen(argv[2], "r"); /* read in our guess-tag corpus */
         if (guess_file == NULL)
             {
-            fprintf(stderr, "%s %s\n", "Cannot open guess_file argv[2] for reading.", guess_file);
+            fprintf(stderr, "%s %s\n", "Cannot open guess_file argv[2] for reading.", argv[2]);
             exit(-1);
             }
         guess_tag_corpus_index = 0;
@@ -453,7 +453,7 @@ int main(int             argc,
             error_list = fopen(tempfile1, "a");
             if (error_list == NULL)
                 {
-                fprintf(stderr, "%s %s\n", "Cannot open error_list for appending.", error_list);
+                fprintf(stderr, "%s %s\n", "Cannot open error_list for appending.", tempfile1);
                 exit(-1);
                 }
             Registry_fetch_contents(errorlistcount, temperrorkey, temperrorval);
@@ -480,7 +480,7 @@ int main(int             argc,
             error_list = fopen(tempfile1, "r");
             if (error_list == NULL)
                 {
-                fprintf(stderr, "%s %s\n", "Cannot open error_list for reading.", error_list);
+                fprintf(stderr, "%s %s\n", "Cannot open error_list for reading.", tempfile1);
                 exit(-1);
                 }
             while (fgets(line, sizeof(line), error_list) != NULL) {
@@ -829,7 +829,7 @@ int main(int             argc,
             correct_out = fopen(argv[3], "a");
             if (correct_out == NULL)
                 {
-                fprintf(stderr, "%s %s\n", "Cannot open correct_out argv[3] for appending", correct_out);
+                fprintf(stderr, "%s %s\n", "Cannot open correct_out argv[3] for appending", argv[3]);
                 exit(-1);
                 }
             fprintf(correct_out, "%s\n", globalprint);

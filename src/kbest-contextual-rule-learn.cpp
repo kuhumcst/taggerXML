@@ -1,7 +1,7 @@
 /*  Copyright @ 1993 MIT */
 /* Written by Eric Brill */
 
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 
 #include <stdio.h>
@@ -209,7 +209,7 @@ Registry errorlistcount,SEENTAGGING,WORDS;
 
 FILE *correct_file, *guess_file, *error_list,*correct_out;
 char line[5000];  /* input line buffer */
-char **split_ptr,**split_ptr2;
+char **split_ptr = 0,**split_ptr2;
 
 char wdpair[1024];
 char *tempstr,*tempstr2;

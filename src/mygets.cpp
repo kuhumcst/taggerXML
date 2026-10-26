@@ -1,6 +1,6 @@
 /* mygets.c : safe replacement for gets(char *) */
 
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 #include "mygets.h"
 #include <stdio.h>
@@ -47,9 +47,9 @@ char * mygets() /* Bart 20030415 */
         }
     if(ret || hasread)
         {
-        size_t L = strlen(theLine) - 1;
-        if(theLine[L] == '\n' || theLine[L] == '\r')
-            theLine[L] = '\0';
+        size_t tL = strlen(theLine) - 1;
+        if(theLine[tL] == '\n' || theLine[tL] == '\r')
+            theLine[tL] = '\0';
         return theLine;
         }
     else
