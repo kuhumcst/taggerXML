@@ -83,7 +83,7 @@ class readValue : public field
             }
         ~readValue()
             {
-            delete word;
+            delete [] word;
             }
         void reset()
             {
