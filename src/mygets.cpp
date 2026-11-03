@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 #define BUFINC 5000 /* Bart 20030415 */
@@ -35,6 +36,11 @@ char * mygets() /* Bart 20030415 */
         {
         char * newline;
         newline = (char *)malloc(theLinelen + BUFINC);
+        if(newline == 0)
+            {
+            fprintf(stderr, "mygets: Could not allocate %d bytes. Exiting.\n", theLinelen + BUFINC);
+            exit(1);
+            }
         INCREMENT
         strcpy(newline,theLine);
         free(theLine);
