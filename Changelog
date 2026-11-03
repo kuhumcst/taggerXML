@@ -1,3 +1,10 @@
+2026.11.03
+Integrated the training code: trainBrill.bash, Learner_Code/, Utilities/ and
+doc/README.TRAINING. The lexical rule learners take the start-state tags as
+arguments (same as taggerXML's -n and -p) and give the proper noun tag only to
+words starting with an upper case letter, like taggerXML's start state.
+unknown-lexical-learn-continue.prl is updated to match unknown-lexical-learn.prl.
+
 version 3.30 / 2025.05.06
 Added \v and \f on same foot as \t.
 Improved some code by using strspn and strcspn instead of loops.

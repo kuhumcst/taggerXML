@@ -1,0 +1,15 @@
+# build output
+*.o
+*.so
+*.so.*
+
+# executables (built into Bin_and_Data/ by src/Makefile; older builds in the root)
+/taggerXML
+/taggerXMLs
+/taggerXMLdl
+/Bin_and_Data/taggerXML
+/Bin_and_Data/taggerXMLs
+/Bin_and_Data/taggerXMLdl
+/Bin_and_Data/contextual-rule-learn
+/Bin_and_Data/kbest-contextual-rule-learn
+/Bin_and_Data/fix-kbest-rule-learn
