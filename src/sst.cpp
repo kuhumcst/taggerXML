@@ -35,7 +35,7 @@ int CheckLineForCapitalizedWordsOrNonAlphabeticStuff(corpus* Corpus)
     for (int i = Corpus->startOfLine; i <= Corpus->endOfLine; ++i)
         {
         ++tot;
-        if (!isUpperUTF8(Corpus->Token[i].getWord()))
+        if (!isUpperOrNonAlphabeticUTF8(Corpus->Token[i].getWord()))
             ++low;
         }
     return 2 * low < tot; /* return 1 if not heading (less than half of all words begin with lower case.)*/
