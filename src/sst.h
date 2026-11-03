@@ -44,16 +44,14 @@ class strng
             }
         void setVal(const char * val)
             {
+            char * newVal = 0;
             if(val)
                 {
-                Val = new char[strlen(val)+1];
-                strcpy(Val,val);
+                newVal = new char[strlen(val)+1];
+                strcpy(newVal,val);
                 }
-            else
-		{
-                delete [] Val;
-		Val = 0;
-		}
+            delete [] Val;
+            Val = newVal;
             }
     };
 
